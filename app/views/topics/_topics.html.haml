@@ -1,0 +1,11 @@
+.pager= paginate topics
+%table.topics
+  %thead
+    %tr
+      %th
+      %th naslov
+      %th # odgovorov
+      %th avtor
+  %tbody
+    = render partial: "/topics/topic", collection: topics
+.pager= paginate topics

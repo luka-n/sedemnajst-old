@@ -1,0 +1,13 @@
+default: &default
+  mn3njalnik:
+    username: ZeroCool
+    password: joker
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

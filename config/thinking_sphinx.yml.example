@@ -1,0 +1,11 @@
+default: &default
+  html_strip: true
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

@@ -1,0 +1,22 @@
+%tbody
+  %tr
+    %td.author
+      %p
+        %strong
+          - if post.user
+            = link_to post.user, user_path(post.user)
+          - else
+            neznanec
+      - if post.user && post.user.avatar?
+        = image_tag post.user.avatar.url(:medium)
+      - if post.user
+        %p
+          sporočil: #{post.user.posts_count}
+      %p
+        %strong napisano:
+      %p= l post.remote_created_at, format: :short
+    %td.body= post.body.html_safe
+  %tr
+    %td
+      %a{href: "#top"} nazaj na vrh
+    %td

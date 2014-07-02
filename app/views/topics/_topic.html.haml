@@ -1,0 +1,15 @@
+%tr
+  %td.avatar
+    - if topic.user && topic.user.avatar?
+      = image_tag topic.user.avatar.url(:small)
+    - else
+      = image_tag "avatar-nil-small.png"
+  %td.title
+    = link_to topic, topic_path(topic)
+    .date= l topic.last_post_remote_created_at
+  %td.posts_count= topic.posts_count - 1
+  %td.author
+    - if topic.user
+      = link_to topic.user, user_path(topic.user)
+    - else
+      neznanec

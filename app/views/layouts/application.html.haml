@@ -1,0 +1,26 @@
+!!! 5
+%html
+  %head
+    %meta{charset: "utf-8"}
+    %title= title
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    #header-outside
+      #header-inside
+        %h1
+          = link_to root_path do
+            = image_tag "header-left.png", width: 496, height: 79, alt: "sedemnajst.si"
+        .clear
+        #search
+          = form_tag search_path, method: :get do
+            = text_field_tag :q, params[:q], size: 25
+            = submit_tag "išči"
+    #nav
+      = link_to "arhiv", root_path
+      |
+      = link_to "kralji gnoja", rankings_path
+      |
+      = link_to "uporabniki", users_path
+    = yield

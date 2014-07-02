@@ -1,0 +1,15 @@
+%h2.table-top poste radi pišejo:
+%table.rankings
+  - @users_by_posts.each_with_index do |user, idx|
+    %tr
+      %td #{idx + 1}.
+      %td= link_to user, user_path(user)
+      %td= user.posts_count
+
+%h2.table-top teme radi odpirajo:
+%table.rankings
+  - @users_by_topics.each_with_index do |user, idx|
+    %tr
+      %td #{idx + 1}.
+      %td= link_to user, user_path(user)
+      %td= user.topics_count

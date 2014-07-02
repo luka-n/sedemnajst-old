@@ -1,0 +1,236 @@
+body {
+  background-color: #fff;
+  color: #000;
+  font-family: Verdana, sans-serif;
+  font-size: 0.7em;
+  margin: 1em auto;
+  padding: 0;
+  width: 80em;
+}
+
+a:link, a:visited {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+.clear { clear: both; }
+
+.hidden { display: none; }
+
+#header-outside { background: url(asset-path("header-middle.png")) repeat-x; }
+
+#header-outside img { float: left; }
+
+#header-inside {
+  background: url(asset-path("header-right.png")) right no-repeat;
+  position: relative;
+}
+
+#search {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.5em;
+}
+
+#nav {
+  background-color: #000;
+  color: #fff;
+  padding: 0.2em 0.4em;
+}
+
+#nav a:link, #nav a:visited {
+  color: #fff;
+  font-weight: normal;
+}
+
+table {
+  border-collapse: collapse;
+  border-color: #000;
+  border-style: solid;
+  border-width: 0 0 1px 1px;
+  width: 100%;
+}
+
+td, th {
+  border-color: #000;
+  border-style: solid;
+  border-width: 1px 1px 0 0;
+  margin: 0;
+  padding: 0.3em;
+  vertical-align: top;
+}
+
+th {
+  background-color: black;
+  color: #ffcf3e;
+  text-align: left;
+}
+
+.topics th { text-align: center; }
+
+.topics td.avatar {
+  background-color: #ffeebb;
+  vertical-align: middle;
+  width: 48px;
+}
+
+.topics td.title {
+  font-size: 1.2em;
+  background-color: #ffe495;
+}
+
+.topics td.title .date {
+  font-size: 0.8em;
+  margin-top: 0.5em;
+  color: gray;
+  font-weight: bold;
+}
+
+.topics td.posts_count {
+  background-color: #ffeebb;
+  font-family: Arial Black, sans-serif;
+  font-size: 2em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.topics td.author {
+  background-color: #ffd555;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.posts .author { width: 15em; }
+
+.posts .body { max-width: 65em; }
+
+.posts .author p {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.posts tbody:nth-child(even),
+.users tbody:nth-child(even),
+.rankings tr:nth-child(even) {
+  background-color: #ffeebb;
+}
+
+.posts tbody:nth-child(odd),
+.users tbody:nth-child(odd),
+.rankings tr:nth-child(odd) {
+  background-color: #ffe495;
+}
+
+.posts th { text-align: center; }
+
+h2.table-top {
+  background-color: #000;
+  color: #ffcf3e;
+  font-size: 1em;
+  margin-bottom: 0;
+  padding: 0.3em;
+  text-align: center;
+}
+
+.yello {
+  background-color: #ffe495;
+  border: 1px solid #000;
+  padding: 1em;
+}
+
+.chart-buttons {
+  margin: 1em 0 2em 0;
+  text-align: center;
+}
+
+.pager {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0.5em 0;
+}
+
+.pager a:link, .pager a:visited { text-decoration: underline; }
+
+.pager a:hover { text-decoration: none; }
+
+#archive-settings.inactive { display: none; }
+
+#archive-settings.active { display: block; }
+
+#date-slider { margin: 1em 0; }
+
+#archive-settings-toggle {
+  float: right;
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+
+#archive-settings-toggle a:link, #archive-settings-toggle a:visited {
+  font-size: 0.75em;
+}
+
+#archive-settings-toggle + * { float: left; }
+
+#user-info h2 { float: left; }
+
+#user-info img { float: right; }
+
+#user-info + * { 
+  clear: both;
+  position: relative;
+  top: 1em;
+}
+
+#users .pager { float: left; }
+
+#users form { float: right; }
+
+#archive-settings input[type="text"] {
+  border: 0;
+  color: #f6931f;
+  font-weight: bold;
+}
+
+.users th:nth-child(2),
+.users th:nth-child(3) {
+  text-align: center;
+}
+
+.users td:nth-child(2),
+.users td:nth-child(3) {
+  text-align: center;
+  width: 8em;
+}
+
+.rankings td:nth-child(1),
+.rankings td:nth-child(3) {
+  width: 8em;
+  text-align: center;
+}
+
+.citation, .blockquote,         /* new style quotes */
+.quotetop, .quotemain           /* old style quotes */
+{
+  margin-bottom: 0.25em;
+  margin-left: 2em;
+  padding-left: 0.5em;
+}
+
+.citation, .quotetop { font-weight: bold; }
+
+.blockquote, .quotemain {
+  background-color: #fff4d2;
+  border: 1px solid #999;
+  color: #444;
+}
+
+img[alt="Oglej si sporočilo"] { display: none; }
+
+.match {
+  font-weight: bold;
+  background-color: #EBB905;
+}
