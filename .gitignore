@@ -13,6 +13,7 @@
 
 /config/config.yml
 /config/database.yml
+/config/secrets.yml
 /config/*.sphinx.conf
 /config/thinking_sphinx.yml
 
