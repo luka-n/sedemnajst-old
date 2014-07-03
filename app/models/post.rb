@@ -8,6 +8,8 @@ class Post < ActiveRecord::Base
   validates :remote_id, uniqueness: true
   validate :remote_id_present_post_legacy
 
+  after_save ThinkingSphinx::RealTime.callback_for(:post)
+
   trigger.after(:insert) do
     <<-SQL
       UPDATE topics SET posts_count = posts_count + 1 WHERE id = NEW.topic_id;
