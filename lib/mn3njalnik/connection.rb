@@ -21,7 +21,7 @@ module Mn3njalnik
           form.ips_password = password
         end.submit
       end
-      @logged_in = true
+      @logged_in = @browser.page.search(".logged_in").any?
     end
 
     def logged_in?
