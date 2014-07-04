@@ -26,6 +26,37 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
+-- Name: posts_after_delete_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION posts_after_delete_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    UPDATE users SET posts_count = posts_count - 1 WHERE id = OLD.user_id;
+    UPDATE topics SET posts_count = posts_count - 1 WHERE id = OLD.topic_id;
+    IF (OLD.remote_id IS NOT NULL AND OLD.remote_id =
+        (SELECT last_post_remote_id FROM topics WHERE id = OLD.topic_id)) OR
+         OLD.remote_created_at =
+          (SELECT last_post_remote_created_at
+           FROM topics WHERE id = OLD.topic_id) THEN
+      UPDATE topics
+      SET last_post_remote_created_at = last_posts.remote_created_at,
+          last_post_remote_id = last_posts.remote_id
+      FROM (
+        SELECT max(remote_created_at) AS remote_created_at,
+               max(remote_id) AS remote_id
+        FROM posts
+        WHERE topic_id = OLD.topic_id
+      ) AS last_posts
+      WHERE id = OLD.topic_id;
+    END IF;
+    RETURN NULL;
+END;
+$$;
+
+
+--
 -- Name: posts_after_insert_row_tr(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -38,6 +69,20 @@ BEGIN
                       last_post_remote_id = NEW.remote_id
     WHERE id = NEW.topic_id;
     UPDATE users SET posts_count = posts_count + 1 WHERE id = NEW.user_id;
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: topics_after_delete_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION topics_after_delete_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id;
     RETURN NULL;
 END;
 $$;
@@ -112,11 +157,11 @@ CREATE TABLE topics (
     id integer NOT NULL,
     title character varying(255) NOT NULL,
     user_id integer,
-    remote_created_at timestamp without time zone NOT NULL,
     remote_id integer NOT NULL,
+    posts_count integer DEFAULT 0 NOT NULL,
     last_post_remote_created_at timestamp without time zone,
     last_post_remote_id integer,
-    posts_count integer DEFAULT 0 NOT NULL
+    remote_created_at timestamp without time zone NOT NULL
 );
 
 
@@ -147,12 +192,12 @@ CREATE TABLE users (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
     remote_id integer NOT NULL,
+    posts_count integer DEFAULT 0 NOT NULL,
+    topics_count integer DEFAULT 0 NOT NULL,
     avatar_file_name character varying(255),
     avatar_content_type character varying(255),
     avatar_file_size integer,
-    avatar_updated_at timestamp without time zone,
-    posts_count integer DEFAULT 0 NOT NULL,
-    topics_count integer DEFAULT 0 NOT NULL
+    avatar_updated_at timestamp without time zone
 );
 
 
@@ -291,10 +336,24 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: posts_after_delete_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER posts_after_delete_row_tr AFTER DELETE ON posts FOR EACH ROW EXECUTE PROCEDURE posts_after_delete_row_tr();
+
+
+--
 -- Name: posts_after_insert_row_tr; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER posts_after_insert_row_tr AFTER INSERT ON posts FOR EACH ROW EXECUTE PROCEDURE posts_after_insert_row_tr();
+
+
+--
+-- Name: topics_after_delete_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER topics_after_delete_row_tr AFTER DELETE ON topics FOR EACH ROW EXECUTE PROCEDURE topics_after_delete_row_tr();
 
 
 --
@@ -337,4 +396,6 @@ SET search_path TO "$user",public;
 INSERT INTO schema_migrations (version) VALUES ('20140609205518');
 
 INSERT INTO schema_migrations (version) VALUES ('20140701124753');
+
+INSERT INTO schema_migrations (version) VALUES ('20140704091318');
 

@@ -10,6 +10,10 @@ class Topic < ActiveRecord::Base
     "UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id"
   end
 
+  trigger.after(:delete) do
+    "UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id"
+  end
+
   class << self
     def sync_all
       Mn3njalnik::Forum.find(17).topics.each do |remote|
