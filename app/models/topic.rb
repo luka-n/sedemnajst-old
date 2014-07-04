@@ -20,7 +20,7 @@ class Topic < ActiveRecord::Base
         next if remote.posts_count > 128
         topic = find_by_remote_id(remote.id)
         unless topic
-          user = User.find_or_create_by_remote_id(remote.user_id)
+          user = User.find_or_create_by_remote_id!(remote.user_id)
           topic = Topic.create!(title: remote.title,
                                 user_id: user.id,
                                 remote_created_at: remote.created_at,
@@ -35,7 +35,7 @@ class Topic < ActiveRecord::Base
 
   def sync(remote)
     remote.posts(offset: posts_count).each do |remote_post|
-      user = User.find_or_create_by_remote_id(remote_post.user_id)
+      user = User.find_or_create_by_remote_id!(remote_post.user_id)
       post = Post.create!(body: remote_post.body,
                           topic_id: id,
                           user_id: user.id,
