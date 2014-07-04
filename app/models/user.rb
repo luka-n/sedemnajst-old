@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   attr_accessor :avatar_url
 
-  has_many :topics
-  has_many :posts
+  has_many :topics, dependent: :destroy
+  has_many :posts, dependent: :destroy
 
   has_attached_file :avatar, styles: {small: "48x48", medium: "72x72"},
     url: "/avatars/:id/:style/:filename"

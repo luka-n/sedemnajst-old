@@ -1,6 +1,6 @@
 class Topic < ActiveRecord::Base
   belongs_to :user
-  has_many :posts
+  has_many :posts, dependent: :delete_all
 
   validates :title, presence: true
   validates :remote_id, presence: true, uniqueness: true
