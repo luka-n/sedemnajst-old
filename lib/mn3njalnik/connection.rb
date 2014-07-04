@@ -19,6 +19,7 @@ module Mn3njalnik
         page.form_with(id: "login") do |form|
           form.ips_username = username
           form.ips_password = password
+          form.checkbox_with("anonymous").check
         end.submit
       end
       @logged_in = @browser.page.search(".logged_in").any?
