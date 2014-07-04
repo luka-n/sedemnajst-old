@@ -28,6 +28,7 @@ gem "hairtrigger"
 group :development, :test do
   gem "byebug"
   gem "pry"
+  gem "pry-doc"
 end
 
 group :development do
