@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
+  respond_to :html, :xml, :json
+
   def index
     @users_q = User.ransack(params[:users_q])
     @users = @users_q.result.order(:name).page(params[:page] || 1).per(40)
+    respond_with @users
   end
 
   def show
     @user = User.find(params[:id])
+    return respond_with @user if request.format.to_sym != :html
 
     @ppdow_q = params[:ppdow_q].try(:to_sym) || :all_time
     @pphod_q = params[:pphod_q].try(:to_sym) || :all_time

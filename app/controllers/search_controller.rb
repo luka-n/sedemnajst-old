@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+  respond_to :html, :xml, :json
+
   def index
     @q = params[:q]
     @posts = Post.
@@ -6,5 +8,6 @@ class SearchController < ApplicationController
       page(params[:page] || 1).per(40)
     @posts.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
     @title = @q
+    respond_with @posts
   end
 end
