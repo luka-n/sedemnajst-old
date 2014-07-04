@@ -19,7 +19,6 @@ class Topic < ActiveRecord::Base
       sync_log = Logger.new(File.join(Rails.root, "log", "sync.log"))
       sync_log.info "Starting sync at #{Time.now}"
       Mn3njalnik::Forum.find(17).topics.each do |remote|
-        next if remote.posts_count > 128
         topic = find_by_remote_id(remote.id)
         unless topic
           user = User.find_or_create_by_remote_id!(remote.user_id)
