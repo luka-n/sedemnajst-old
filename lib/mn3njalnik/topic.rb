@@ -42,11 +42,15 @@ module Mn3njalnik
 
     def posts(options={})
       Enumerator.new do |y|
-        page = connection.fetch(TOPIC_U % [id, 0])
+        options[:offset] ||= 0
+        start = options[:offset] % 40
+        st = options[:offset] - start
+        page = connection.fetch(TOPIC_U % [id, st])
         loop do
-          page.search(".post_block").each do |row|
+          page.search(".post_block")[start..-1].each do |row|
             y << post_from_row(row)
           end
+          start = 0
           if (next_a = page.search("[rel='next']")[0])
             page = connection.fetch(next_a.attr("href"))
           else
