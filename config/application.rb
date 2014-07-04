@@ -7,6 +7,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 require File.expand_path('../../lib/mn3njalnik.rb', __FILE__)
+require File.expand_path('../../lib/patches/counter_cache.rb', __FILE__)
 
 module Sedemnajst
   class Application < Rails::Application
