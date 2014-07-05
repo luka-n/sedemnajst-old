@@ -77,6 +77,12 @@ h2 { font-size: 1.5em; margin: 0.5em 0; }
   text-align: center;
 }
 
+#ppdow-chart-container, #pphod-chart-container {
+  height: 172px;
+  padding-top: 128px;
+  text-align: center;
+}
+
 .pager {
   font-size: 1.2em;
   font-weight: bold;
