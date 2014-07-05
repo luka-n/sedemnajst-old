@@ -1,4 +1,4 @@
-class Users::PostsController < ApplicationController
+class PostsController < ApplicationController
   respond_to :xml, :json
 
   def index
