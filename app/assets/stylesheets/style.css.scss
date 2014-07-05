@@ -149,6 +149,12 @@ h2.table-top {
 
 #ppdow-chart-container, #pphod-chart-container { height: 300px; }
 
+#chart-loader {
+  position: relative;
+  top: 128px;
+  text-align: center;
+}
+
 .pager {
   font-size: 1.2em;
   font-weight: bold;

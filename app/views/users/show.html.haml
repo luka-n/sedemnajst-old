@@ -23,6 +23,8 @@
       = radio_button_tag :ppdow_q, "last_week", @ppdow_q == :last_week, class: "submittable"
       = label_tag :ppdow_q_last_week, "zadnji teden"
     #ppdow-chart-container
+      #chart-loader
+        = image_tag "loader.gif"
 
 %h2.table-top posti glede na uro v dnevu
 .yello
@@ -38,3 +40,5 @@
       = radio_button_tag :pphod_q, "last_week", @pphod_q == :last_week, class: "submittable"
       = label_tag :pphod_q_last_week, "zadnji teden"
     #pphod-chart-container
+      #chart-loader
+        = image_tag "loader.gif"
