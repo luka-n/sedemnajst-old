@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       resources :posts
       resources :topics
     end
+    get 'ppdow', on: :member
+    get 'pphod', on: :member
   end
 
   get 'rankings' => 'rankings#index'

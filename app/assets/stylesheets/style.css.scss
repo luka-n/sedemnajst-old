@@ -142,10 +142,12 @@ h2.table-top {
   padding: 1em;
 }
 
-.chart-buttons {
+#ppdow-chart-buttons, #pphod-chart-buttons {
   margin: 1em 0 2em 0;
   text-align: center;
 }
+
+#ppdow-chart-container, #pphod-chart-container { height: 300px; }
 
 .pager {
   font-size: 1.2em;
