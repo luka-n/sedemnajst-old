@@ -28,7 +28,7 @@ gem "hairtrigger"
 group :development, :test do
   gem "byebug"
   gem "pry"
-  gem "pry-doc"
+  gem "pry-doc", git: "https://github.com/pry/pry-doc"
 end
 
 group :development do
