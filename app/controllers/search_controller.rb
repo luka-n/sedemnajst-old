@@ -6,7 +6,6 @@ class SearchController < ApplicationController
     @posts = Post.
       search(@q, star: true, order: "remote_created_at DESC").
       page(params[:page] || 1).per(40)
-    @posts.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
     @title = @q
     respond_with @posts
   end

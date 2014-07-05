@@ -28,5 +28,6 @@ $(function() {
   });
   $("#archive-settings-toggle").on("click", function() {
     $("#archive-settings").toggle();
+    return false;
   });
 });

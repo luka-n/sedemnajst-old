@@ -1,15 +1,17 @@
-%h2.table-top poste radi pišejo:
+%h2 kralji gnoja
+
 %table.rankings
-  - @users_by_posts.each_with_index do |user, idx|
+  %th{colspan: 3} poste radi pišejo:
+  - @users_by_posts.each do |user|
     %tr
-      %td #{idx + 1}.
+      %td= avatar_img user, :small
       %td= link_to user, user_path(user)
       %td= user.posts_count
 
-%h2.table-top teme radi odpirajo:
 %table.rankings
-  - @users_by_topics.each_with_index do |user, idx|
+  %th{colspan: 3} teme radi odpirajo:
+  - @users_by_topics.each do |user|
     %tr
-      %td #{idx + 1}.
+      %td= avatar_img user, :small
       %td= link_to user, user_path(user)
       %td= user.topics_count

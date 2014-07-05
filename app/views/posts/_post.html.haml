@@ -1,19 +1,13 @@
 %tbody
+  - if with_title
+    %tr
+      %td
+      %td= link_to post.topic, topic_path(post.topic)
   %tr
     %td.author
-      %p
-        %strong
-          - if post.user
-            = link_to post.user, user_path(post.user)
-          - else
-            neznanec
-      - if post.user && post.user.avatar?
-        = image_tag post.user.avatar.url(:medium)
-      - if post.user
-        %p
-          sporočil: #{post.user.posts_count}
-      %p
-        %strong napisano:
+      %p= user_link post.user
+      %p= avatar_img post.user
+      %p  napisano:
       %p= l post.remote_created_at, format: :short
     %td.body= post.body.html_safe
   %tr

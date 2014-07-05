@@ -1,17 +1,17 @@
-#user-info
-  %h2= @user
-  = image_tag @user.avatar.url(:medium) if @user.avatar?
-%h2.table-top statistika
-.yello
-  %dl
-    %dt število postov:
-    %dd= link_to @user.posts_count, user_posts_path(@user)
-    %dt število tem:
-    %dd= link_to @user.topics_count, user_topics_path(@user)
+#user-header
+  #user-info
+    %h2= @user
+    %p
+      število postov:
+      = link_to @user.posts_count, user_posts_path(@user)
+    %p
+      število tem:
+      = link_to @user.topics_count, user_topics_path(@user)
+  = avatar_img @user
 
-%h2.table-top posti glede na dan v tednu
-.yello
-  = form_tag "#", id: "ppdow-chart-filter" do
+.chart-box
+  %h2 posti glede na dan v tednu:
+  = form_tag "", id: "ppdow-chart-filter" do
     = hidden_field_tag :user_id, @user.id
     #ppdow-chart-buttons
       = radio_button_tag :ppdow_q, "all_time", @ppdow_q == :all_time, class: "submittable"
@@ -26,9 +26,9 @@
       #chart-loader
         = image_tag "loader.gif"
 
-%h2.table-top posti glede na uro v dnevu
-.yello
-  = form_tag "#", id: "pphod-chart-filter" do
+.chart-box
+  %h2 posti glede na uro v dnevu:
+  = form_tag "", id: "pphod-chart-filter" do
     = hidden_field_tag :user_id, @user.id
     #pphod-chart-buttons
       = radio_button_tag :pphod_q, "all_time", @pphod_q == :all_time, class: "submittable"

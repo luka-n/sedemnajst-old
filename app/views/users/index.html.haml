@@ -1,19 +1,20 @@
-#users
+#users-header
   %h2 uporabniki
-  .pager= paginate @users
   = search_form_for @users_q, as: :users_q do |f|
-    = f.label :name_cont, "ime vsebuje:"
     = f.search_field :name_cont
-    = f.submit "išči"
+    = f.submit "najdi uporabnika"
+.pager= paginate @users
 %table.users
   %thead
     %tr
+      %th
       %th ime
       %th # sporočil
       %th # tem
   - @users.each do |user|
     %tbody
       %tr
+        %td= avatar_img user, :small
         %td= link_to user, user_path(user)
         %td= user.posts_count
         %td= user.topics_count

@@ -4,5 +4,7 @@
     %tr
       %th avtor
       %th sporočilo
-  = render partial: "/posts/post", collection: posts
+  = render partial: "/posts/post",
+           collection: posts,
+           locals: {with_title: with_title}
 .pager= paginate posts
