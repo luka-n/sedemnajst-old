@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
+  include SortableUsers
   respond_to :html, :xml, :json
 
   def index
