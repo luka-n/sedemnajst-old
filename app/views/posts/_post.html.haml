@@ -2,7 +2,7 @@
   - if with_title
     %tr
       %td
-      %td= link_to post.topic, goto_post_path(post)
+      %td= link_to post.topic, post_path(post)
   %tr
     %td.author
       %p= user_link post.user
@@ -10,7 +10,7 @@
       %p  napisano:
       %p= l post.remote_created_at, format: :short
     %td.body
-      %a{name: "p#{post.id}"}
+      %a{name: "post-#{post.id}"}
       = post.body.html_safe
   %tr
     %td

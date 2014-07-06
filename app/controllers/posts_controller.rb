@@ -9,12 +9,12 @@ class PostsController < ApplicationController
     respond_with @posts
   end
 
-  def goto
+  def show
     post = Post.includes(:topic).find(params[:id])
     post_idx = post.topic.posts.
       where("remote_created_at < ?", post.remote_created_at).
       count
     page = ((post_idx + 1) / 40.0).ceil
-    redirect_to topic_path(post.topic, page: page, anchor: "p#{post.id}")
+    redirect_to topic_path(post.topic, page: page, anchor: "post-#{post.id}")
   end
 end
