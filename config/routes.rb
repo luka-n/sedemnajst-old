@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :posts do
+    get "goto", on: :member
+  end
   resources :topics
 
   resources :users do
