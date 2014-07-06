@@ -32,6 +32,10 @@ group :development, :test do
 end
 
 group :development do
+  gem "capistrano", git: "https://github.com/capistrano/capistrano"
+  gem "capistrano-rails"
+  gem "capistrano-rbenv"
+  gem "capistrano3-puma"
   gem "spring"
 end
 
