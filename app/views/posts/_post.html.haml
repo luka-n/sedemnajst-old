@@ -2,14 +2,16 @@
   - if with_title
     %tr
       %td
-      %td= link_to post.topic, topic_path(post.topic)
+      %td= link_to post.topic, post_path(post)
   %tr
     %td.author
       %p= user_link post.user
       %p= avatar_img post.user
       %p  napisano:
       %p= l post.remote_created_at, format: :short
-    %td.body= post.body.html_safe
+    %td.body
+      %a{name: "post-#{post.id}"}
+      = post.body.html_safe
   %tr
     %td
       %a{href: "#top"} nazaj na vrh
