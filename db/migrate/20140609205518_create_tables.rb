@@ -3,11 +3,10 @@ class CreateTables < ActiveRecord::Migration
     create_table :users do |t|
       t.string :name, null: false
       t.integer :remote_id, null: false
-
-      t.attachment :avatar
-
       t.integer :posts_count, null: false, default: 0
       t.integer :topics_count, null: false, default: 0
+
+      t.attachment :avatar
 
       t.index :remote_id, unique: true
     end
@@ -15,12 +14,11 @@ class CreateTables < ActiveRecord::Migration
     create_table :topics do |t|
       t.string :title, null: false
       t.integer :user_id, null: true
-      t.datetime :remote_created_at, null: false
       t.integer :remote_id, null: false
-
+      t.integer :posts_count, null: false, default: 0
       t.datetime :last_post_remote_created_at, null: true
       t.integer :last_post_remote_id, null: true
-      t.integer :posts_count, null: false, default: 0
+      t.datetime :remote_created_at, null: false
 
       t.index :user_id
       t.index :remote_id, unique: true
