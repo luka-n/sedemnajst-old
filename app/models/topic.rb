@@ -17,7 +17,7 @@ class Topic < ActiveRecord::Base
   class << self
     def sync_all
       sync_log = Logger.new(File.join(Rails.root, "log", "sync.log"))
-      sync_log.info "Starting sync at #{Time.now}"
+      sync_log.info "Starting sync"
       Mn3njalnik::Forum.find(17).topics.each do |remote|
         topic = find_by_remote_id(remote.id)
         unless topic
@@ -26,14 +26,13 @@ class Topic < ActiveRecord::Base
                                 user_id: user.id,
                                 remote_created_at: remote.created_at,
                                 remote_id: remote.id)
-          sync_log.info "Syncing NEW topic w/ remote_id #{remote.id} & #{remote.posts_count} posts"
         end
         if topic.posts_count != remote.posts_count
-          sync_log.info "Syncing OLD topic w/ remote_id #{remote.id} & #{remote.posts_count - topic.posts_count} new posts"
+          sync_log.info "Syncing topic w/ remote_id #{remote.id} and #{remote.posts_count - topic.posts_count} new posts"
           topic.sync(remote)
         end
       end
-      sync_log.info "Ending sync at #{Time.now}"
+      sync_log.info "Ending sync"
     end
   end
 
