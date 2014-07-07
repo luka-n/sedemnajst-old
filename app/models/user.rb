@@ -1,14 +1,11 @@
 class User < ActiveRecord::Base
   attr_accessor :avatar_url
 
-  audit :name, :avatar_file_name, :avatar_content_type, :avatar_file_size,
-    :avatar_updated_at
-
   has_many :topics, dependent: :destroy
   has_many :posts, dependent: :destroy
 
   has_attached_file :avatar, styles: {small: "48x48", medium: "72x72"},
-    url: "/avatars/:id/:last_audit_id/:style/:filename", preserve_files: true
+    url: "/avatars/:id/:style/:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   validates :name, presence: true

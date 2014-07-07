@@ -24,7 +24,6 @@ gem "highcharts-rails"
 gem "rails-i18n"
 gem "jquery-turbolinks"
 gem "hairtrigger"
-gem "auditable"
 
 group :development, :test do
   gem "byebug"
