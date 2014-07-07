@@ -11,7 +11,7 @@ module SortablePosts
            user_id: "user_id",
            user_id_desc: "user_id DESC",
            remote_created_at: "remote_created_at",
-           remote_created_at_desc: "remote_created_at_desc",
+           remote_created_at_desc: "remote_created_at DESC",
            remote_id: "remote_id",
            remote_id_desc: "remote_id DESC"}
     map[key.try(:to_sym)] || map[default.to_sym]
