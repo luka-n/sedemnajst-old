@@ -77,10 +77,15 @@ h2 { font-size: 1.5em; margin: 0.5em 0; }
   margin: 1em 0;
 }
 
-#chart-loader {
-  height: 172px;
-  padding-top: 128px;
-  text-align: center;
+.chart-container { height: 300px; }
+
+.chart-container .loader {
+  background-image: url(asset-path("loader.gif"));
+  position: relative;
+  top: 128px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
 }
 
 .pager {

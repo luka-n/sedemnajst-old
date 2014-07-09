@@ -20,6 +20,7 @@ $(function() {
     var user_id = $("#ppd-chart").data("user-id"),
         q = $("input[name='ppd_q']:checked").val(),
         url = "/users/" + user_id + "/ppd?q=" + q;
+    $("#ppd-chart-container").html($("<div>", {class: "loader"}));
     $("input[name='ppd_q']").on("change", make_ppd_chart);
     new Chartkick.LineChart("ppd-chart-container", url, default_options);
   }
@@ -28,6 +29,7 @@ $(function() {
     var user_id = $("#ppdow-chart").data("user-id"),
         q = $("input[name='ppdow_q']:checked").val(),
         url = "/users/" + user_id + "/ppdow?q=" + q;
+    $("#ppdow-chart-container").html($("<div>", {class: "loader"}));
     $("input[name='ppdow_q']").on("change", make_ppdow_chart);
     new Chartkick.ColumnChart("ppdow-chart-container", url, default_options);
   }
@@ -36,6 +38,7 @@ $(function() {
     var user_id = $("#pphod-chart").data("user-id"),
         q = $("input[name='pphod_q']:checked").val(),
         url = "/users/" + user_id + "/pphod?q=" + q;
+    $("#pphod-chart-container").html($("<div>", {class: "loader"}));
     $("input[name='pphod_q']").on("change", make_pphod_chart);
     new Chartkick.ColumnChart("pphod-chart-container", url, default_options);
   }

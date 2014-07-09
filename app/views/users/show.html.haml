@@ -14,7 +14,6 @@
   .section-content
     = chart_filter :ppd, @ppd_q
     #ppd-chart-container.chart-container
-      #chart-loader= image_tag "loader.gif"
     %p.hint NAMIG: pričujoči graf se ponaša z "zoom" funkcijo--le klikni in povleci!
 
 #ppdow-chart.section{:"data-user-id" => @user.id}
@@ -22,11 +21,9 @@
   .section-content
     = chart_filter :ppdow, @ppdow_q
     #ppdow-chart-container.chart-container
-      #chart-loader= image_tag "loader.gif"
 
 #pphod-chart.section{:"data-user-id" => @user.id}
   %h2.section-heading posti glede na uro v dnevu:
   .section-content
     = chart_filter :pphod, @pphod_q
     #pphod-chart-container.chart-container
-      #chart-loader= image_tag "loader.gif"
