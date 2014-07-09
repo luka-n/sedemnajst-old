@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.
-      order(map_sort_key(params[:sort], :remote_created_at)).
+      order(map_sort_key(params[:sort], :remote_created_at_desc)).
       page(params[:page] || 1).per(40)
     respond_with @posts
   end

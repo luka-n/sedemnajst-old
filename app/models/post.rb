@@ -49,8 +49,17 @@ class Post < ActiveRecord::Base
           dt, dt.end_of_day)
   }
 
+  scope :remote_created_on_dow_eq, -> dow {
+    where("date_part('dow', remote_created_at) = ?", dow)
+  }
+
+  scope :remote_created_at_hour_eq, -> hour {
+    where("date_part('hour', remote_created_at) = ?", hour)
+  }
+
   def self.ransackable_scopes(auth_object=nil)
-    [:remote_created_on_eq]
+    [:remote_created_on_eq, :remote_created_on_dow_eq,
+     :remote_created_at_hour_eq]
   end
 
   private

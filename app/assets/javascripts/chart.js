@@ -55,7 +55,24 @@ $(function() {
         q = $("input[name='ppdow_q']:checked").val(),
         url = "/users/" + user_id + "/ppdow?q=" + q;
     $("#ppdow-chart-container").html($("<div>", {class: "loader"}));
-    new Chartkick.ColumnChart("ppdow-chart-container", url, default_options);
+    new Chartkick.ColumnChart("ppdow-chart-container", url, $.extend(true, {
+      library: {
+        plotOptions: {
+          series: {
+            point: {
+              events: {
+                click: function(ev) {
+                  var dow = ev.point.x + 1;
+                  Turbolinks.
+                    visit("/users/" + user_id +
+                          "/posts?posts_q[remote_created_on_dow_eq]=" + dow);
+                }
+              }
+            }
+          }
+        }
+      }
+    }, default_options));
   }
 
   function make_pphod_chart() {
@@ -63,7 +80,24 @@ $(function() {
         q = $("input[name='pphod_q']:checked").val(),
         url = "/users/" + user_id + "/pphod?q=" + q;
     $("#pphod-chart-container").html($("<div>", {class: "loader"}));
-    new Chartkick.ColumnChart("pphod-chart-container", url, default_options);
+    new Chartkick.ColumnChart("pphod-chart-container", url, $.extend(true, {
+      library: {
+        plotOptions: {
+          series: {
+            point: {
+              events: {
+                click: function(ev) {
+                  var hour = ev.point.x;
+                  Turbolinks.
+                    visit("/users/" + user_id +
+                          "/posts?posts_q[remote_created_at_hour_eq]=" + hour);
+                }
+              }
+            }
+          }
+        }
+      }
+    }, default_options));
   }
 
   if ($("#ppd-chart").length) { make_ppd_chart(); }
