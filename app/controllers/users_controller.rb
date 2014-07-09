@@ -14,16 +14,16 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @ppd_q = params[:ppd_q].try(:to_sym) || :last_week
-    @ppdow_q = params[:ppdow_q].try(:to_sym) || :last_week
-    @pphod_q = params[:pphod_q].try(:to_sym) || :last_week
+    @ppd_q = params[:ppd_q] || "last_week"
+    @ppdow_q = params[:ppdow_q] || "last_week"
+    @pphod_q = params[:pphod_q] || "last_week"
     @title = @user.to_s
     respond_with @user
   end
 
   def ppd
     user = User.find(params[:id])
-    ppd_gt = q_to_date(params[:q].try(:to_sym) || :last_week)
+    ppd_gt = q_to_date(params[:q] || "last_week")
     ppd_posts = if ppd_gt
                   user.posts.where("remote_created_at > ?", ppd_gt)
                 else
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
   def ppdow
     user = User.find(params[:id])
-    ppdow_gt = q_to_date(params[:q].try(:to_sym) || :last_week)
+    ppdow_gt = q_to_date(params[:q] || "last_week")
     ppdow_posts = if ppdow_gt
                     user.posts.where("remote_created_at > ?", ppdow_gt)
                   else
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
 
   def pphod
     user = User.find(params[:id])
-    pphod_gt = q_to_date(params[:q].try(:to_sym) || :last_week)
+    pphod_gt = q_to_date(params[:q] || "last_week")
     pphod_posts = if pphod_gt
                     user.posts.where("remote_created_at > ?", pphod_gt)
                   else
@@ -61,10 +61,10 @@ class UsersController < ApplicationController
   private
 
   def q_to_date(q)
-    case q when :all_time then nil
-    when :last_year then Date.today - 1.year
-    when :last_month then Date.today - 1.month
-    when :last_week then Date.today - 1.week end
+    case q when "all_time" then nil
+    when "last_year" then Date.today - 1.year
+    when "last_month" then Date.today - 1.month
+    when "last_week" then Date.today - 1.week end
   end
 
   def dow_to_name(dow)
