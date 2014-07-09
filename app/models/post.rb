@@ -43,6 +43,16 @@ class Post < ActiveRecord::Base
     SQL
   end
 
+  scope :remote_created_on_eq, -> date {
+    dt = DateTime.parse(date)
+    where("remote_created_at BETWEEN ? AND ?",
+          dt, dt.end_of_day)
+  }
+
+  def self.ransackable_scopes(auth_object=nil)
+    [:remote_created_on_eq]
+  end
+
   private
 
   def remote_id_present_post_legacy

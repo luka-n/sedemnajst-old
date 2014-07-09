@@ -17,13 +17,14 @@ gem "mysql2"
 gem "pg"
 gem "groupdate"
 gem "chartkick"
-gem "ransack"
 gem "jquery-ui-rails"
 gem "jquery-ui-themes"
 gem "highcharts-rails"
 gem "rails-i18n"
 gem "jquery-turbolinks"
 gem "hairtrigger"
+
+gem "ransack", git: "https://github.com/activerecord-hackery/ransack"
 
 group :development, :test do
   gem "byebug"

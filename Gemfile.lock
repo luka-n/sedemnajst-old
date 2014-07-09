@@ -1,4 +1,15 @@
 GIT
+  remote: https://github.com/activerecord-hackery/ransack
+  revision: 36046da3ed0cc04ce9f1995264a7bde9cd547a90
+  specs:
+    ransack (1.2.3)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      i18n
+      polyamorous (~> 1.0.0)
+
+GIT
   remote: https://github.com/capistrano/capistrano
   revision: bb2ed22893f1116face0c39fc24c5e0792e86a26
   specs:
@@ -185,12 +196,6 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
-    ransack (1.2.3)
-      actionpack (>= 3.0)
-      activerecord (>= 3.0)
-      activesupport (>= 3.0)
-      i18n
-      polyamorous (~> 1.0.0)
     riddle (1.5.11)
     ruby2ruby (2.0.8)
       ruby_parser (~> 3.1)
@@ -275,7 +280,7 @@ DEPENDENCIES
   puma
   rails (= 4.1.1)
   rails-i18n
-  ransack
+  ransack!
   sass-rails (~> 4.0.3)
   spring
   thinking-sphinx

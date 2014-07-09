@@ -3,8 +3,7 @@ $(function() {
     colors: ["#ffcf3e"],
     library: {
       chart: {
-        backgroundColor: "#ffe495",
-        zoomType: "x"
+        backgroundColor: "#ffe495"
       },
       plotOptions: {
         series: {
@@ -28,7 +27,25 @@ $(function() {
         q = $("input[name='ppd_q']:checked").val(),
         url = "/users/" + user_id + "/ppd?q=" + q;
     $("#ppd-chart-container").html($("<div>", {class: "loader"}));
-    new Chartkick.LineChart("ppd-chart-container", url, default_options);
+    new Chartkick.LineChart("ppd-chart-container", url, $.extend(true, {
+      library: {
+        chart: {
+          zoomType: "x"
+        },
+        plotOptions: {
+          series: {
+            point: {
+              events: {
+                click: function(ev) {
+                  var date = Highcharts.dateFormat("%d.%m.%Y", ev.point.x);
+                  Turbolinks.visit("/users/" + user_id + "/posts?posts_q[remote_created_on_eq]=" + date);
+                }
+              }
+            }
+          }
+        }
+      }
+    }, default_options));
   }
 
   function make_ppdow_chart() {
