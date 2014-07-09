@@ -1,12 +1,20 @@
 $(function() {
   var default_options = {
-    colors: ["#ffcf3e"],
     library: {
       chart: {
-        backgroundColor: "#ffe495",
+        backgroundColor: "#ffeebb",
         zoomType: "x"
       },
       plotOptions: {
+        series: {
+          marker: {
+            radius: 5,
+            fillColor: '#F0B400',
+            lineColor: '#ffcf3e'
+          },
+          lineWidth: 5,
+          color: '#ffcf3e'
+        },
         column: {
           borderWidth: 0
         }
