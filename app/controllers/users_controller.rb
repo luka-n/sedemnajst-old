@@ -14,33 +14,48 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @ppdow_q = params[:ppdow_q].try(:to_sym) || :all_time
-    @pphod_q = params[:pphod_q].try(:to_sym) || :all_time
+    @ppd_q = params[:ppd_q].try(:to_sym) || :last_week
+    @ppdow_q = params[:ppdow_q].try(:to_sym) || :last_week
+    @pphod_q = params[:pphod_q].try(:to_sym) || :last_week
     @title = @user.to_s
     respond_with @user
   end
 
+  def ppd
+    user = User.find(params[:id])
+    ppd_gt = q_to_date(params[:q].try(:to_sym) || :last_week)
+    ppd_posts = if ppd_gt
+                  user.posts.where("remote_created_at > ?", ppd_gt)
+                else
+                  user.posts
+                end
+    posts_per_day = ppd_posts.group_by_day(:remote_created_at).count
+    render json: posts_per_day
+  end
+
   def ppdow
-    @user = User.find(params[:id])
-    @q = params[:q].try(:to_sym) || :all_time
-    @ppdow_gt = q_to_date(@q)
-    @ppdow_posts = if @ppdow_gt then @user.posts.
-                       where(Post.arel_table[:remote_created_at].gt(@ppdow_gt))
-                   else @user.posts end
-    @posts_per_dow = @ppdow_posts.group_by_day_of_week(:remote_created_at).count.
+    user = User.find(params[:id])
+    ppdow_gt = q_to_date(params[:q].try(:to_sym) || :last_week)
+    ppdow_posts = if ppdow_gt
+                    user.posts.where("remote_created_at > ?", ppdow_gt)
+                  else
+                    user.posts
+                  end
+    posts_per_dow = ppdow_posts.group_by_day_of_week(:remote_created_at).count.
       map { |k,v| [dow_to_name(k), v] }
-    render layout: false
+    render json: posts_per_dow
   end
 
   def pphod
-    @user = User.find(params[:id])
-    @q = params[:q].try(:to_sym) || :all_time
-    @pphod_gt = q_to_date(@q)
-    @pphod_posts = if @pphod_gt then @user.posts.
-                       where(Post.arel_table[:remote_created_at].gt(@pphod_gt))
-                   else @user.posts end
-    @posts_per_hod = @pphod_posts.group_by_hour_of_day(:remote_created_at).count
-    render layout: false
+    user = User.find(params[:id])
+    pphod_gt = q_to_date(params[:q].try(:to_sym) || :last_week)
+    pphod_posts = if pphod_gt
+                    user.posts.where("remote_created_at > ?", pphod_gt)
+                  else
+                    user.posts
+                  end
+    posts_per_hod = pphod_posts.group_by_hour_of_day(:remote_created_at).count
+    render json: posts_per_hod
   end
 
   private

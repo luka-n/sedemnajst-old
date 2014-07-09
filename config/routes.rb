@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :posts
       resources :topics
     end
+    get "ppd", on: :member
     get "ppdow", on: :member
     get "pphod", on: :member
   end

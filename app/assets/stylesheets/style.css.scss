@@ -72,12 +72,12 @@ th {
 
 h2 { font-size: 1.5em; margin: 0.5em 0; }
 
-#ppdow-chart-buttons, #pphod-chart-buttons {
-  margin: 1em 0 2em 0;
+.chart-filter {
   text-align: center;
+  margin: 1em 0;
 }
 
-#chart-loader, #chart-loader {
+#chart-loader {
   height: 172px;
   padding-top: 128px;
   text-align: center;
@@ -140,6 +140,29 @@ img[alt="Oglej si sporočilo"] { display: none; }
   background-color: #EBB905;
 }
 
+.hint {
+  font-size: 0.8em;
+  color: gray;
+  font-weight: bold;
+}
+
+.section {
+  background-color: #ffe495;
+  border: 1px solid #000;
+  margin: 1em 0;
+}
+
+.section-heading {
+  background-color: #000;
+  color: #ffcf3e;
+  font-size: 1em;
+  margin: 0;
+  padding: 0.3em;
+  text-align: center;
+}
+
+.section-content { margin: 1em; }
+
 /* -- USERS TABLE ----------------------------------------------------------- */
 
 #users-header h2 { float: left; }
@@ -179,25 +202,6 @@ img[alt="Oglej si sporočilo"] { display: none; }
 }
 
 /* -- USER PAGE ------------------------------------------------------------- */
-
-.chart-box {
-  background-color: #ffe495;
-  border: 1px solid #000;
-  margin: 2em 0;
-}
-
-.chart-box h2 {
-  background-color: #000;
-  color: #ffcf3e;
-  font-size: 1em;
-  margin: 0;
-  padding: 0.3em;
-  text-align: center;
-}
-
-.chart-box form {
-  margin: 1em;
-}
 
 #user-header #user-info {
   font-weight: bold;

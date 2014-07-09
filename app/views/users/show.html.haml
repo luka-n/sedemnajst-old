@@ -9,36 +9,24 @@
       = link_to @user.topics_count, user_topics_path(@user)
   = avatar_img @user
 
-.chart-box
-  %h2 posti glede na dan v tednu:
-  = form_tag "", id: "ppdow-chart-filter" do
-    = hidden_field_tag :user_id, @user.id
-    #ppdow-chart-buttons
-      = radio_button_tag :ppdow_q, "all_time", @ppdow_q == :all_time, class: "submittable"
-      = label_tag :ppdow_q_all_time, "vseskozi"
-      = radio_button_tag :ppdow_q, "last_year", @ppdow_q == :last_year, class: "submittable"
-      = label_tag :ppdow_q_last_year, "zadnje leto"
-      = radio_button_tag :ppdow_q, "last_month", @ppdow_q == :last_month, class: "submittable"
-      = label_tag :ppdow_q_last_month, "zadnji mesec"
-      = radio_button_tag :ppdow_q, "last_week", @ppdow_q == :last_week, class: "submittable"
-      = label_tag :ppdow_q_last_week, "zadnji teden"
-    #ppdow-chart-container
-      #chart-loader
-        = image_tag "loader.gif"
+#ppd-chart.section{:"data-user-id" => @user.id}
+  %h2.section-heading posti skozi čas:
+  .section-content
+    = chart_filter :ppd, @ppd_q
+    #ppd-chart-container.chart-container
+      #chart-loader= image_tag "loader.gif"
+    %p.hint NAMIG: pričujoči graf se ponaša z "zoom" funkcijo--le klikni in povleci!
 
-.chart-box
-  %h2 posti glede na uro v dnevu:
-  = form_tag "", id: "pphod-chart-filter" do
-    = hidden_field_tag :user_id, @user.id
-    #pphod-chart-buttons
-      = radio_button_tag :pphod_q, "all_time", @pphod_q == :all_time, class: "submittable"
-      = label_tag :pphod_q_all_time, "vseskozi"
-      = radio_button_tag :pphod_q, "last_year", @pphod_q == :last_year, class: "submittable"
-      = label_tag :pphod_q_last_year, "zadnje leto"
-      = radio_button_tag :pphod_q, "last_month", @pphod_q == :last_month, class: "submittable"
-      = label_tag :pphod_q_last_month, "zadnji mesec"
-      = radio_button_tag :pphod_q, "last_week", @pphod_q == :last_week, class: "submittable"
-      = label_tag :pphod_q_last_week, "zadnji teden"
-    #pphod-chart-container
-      #chart-loader
-        = image_tag "loader.gif"
+#ppdow-chart.section{:"data-user-id" => @user.id}
+  %h2.section-heading posti glede na dan v tednu:
+  .section-content
+    = chart_filter :ppdow, @ppdow_q
+    #ppdow-chart-container.chart-container
+      #chart-loader= image_tag "loader.gif"
+
+#pphod-chart.section{:"data-user-id" => @user.id}
+  %h2.section-heading posti glede na uro v dnevu:
+  .section-content
+    = chart_filter :pphod, @pphod_q
+    #pphod-chart-container.chart-container
+      #chart-loader= image_tag "loader.gif"
