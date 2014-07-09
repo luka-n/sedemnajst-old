@@ -33,6 +33,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "brakeman", git: "https://github.com/presidentbeef/brakeman"
   gem "capistrano", git: "https://github.com/capistrano/capistrano"
   gem "capistrano-rails"
   gem "capistrano-rbenv"
