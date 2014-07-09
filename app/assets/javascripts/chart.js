@@ -7,6 +7,13 @@ $(function() {
         zoomType: "x"
       },
       plotOptions: {
+        series: {
+          marker: {
+            radius: 4,
+            fillColor: "#f0b400",
+          },
+          lineWidth: 3
+        },
         column: {
           borderWidth: 0
         }
