@@ -38,7 +38,9 @@ $(function() {
               events: {
                 click: function(ev) {
                   var date = Highcharts.dateFormat("%d.%m.%Y", ev.point.x);
-                  Turbolinks.visit("/users/" + user_id + "/posts?posts_q[remote_created_on_eq]=" + date);
+                  Turbolinks.
+                    visit("/users/" + user_id +
+                          "/posts?posts_q[remote_created_on_eq]=" + date);
                 }
               }
             }
