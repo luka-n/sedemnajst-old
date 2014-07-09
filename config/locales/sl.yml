@@ -202,6 +202,7 @@ sl:
       default: ! '%A, %d %b %Y ob %H:%M:%S'
       long: ! '%d. %B, %Y ob %H:%M'
       short: ! '%d. %b ob %H:%M'
+      medium: ! "%a, %d. %b '%y ob %H:%M"
     pm: popoldan
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
   activemodel:
