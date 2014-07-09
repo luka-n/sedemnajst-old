@@ -13,9 +13,9 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require jquery.ui.button
-//= require jquery.ui.datepicker
-//= require jquery.ui.slider
+//= require jquery-ui/button
+//= require jquery-ui/datepicker
+//= require jquery-ui/slider
 //= require highcharts
 //= require chartkick
 //= require turbolinks

@@ -10,9 +10,9 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require jquery.ui.button
- *= require jquery.ui.datepicker
- *= require jquery.ui.slider
+ *= require jquery-ui/button
+ *= require jquery-ui/datepicker
+ *= require jquery-ui/slider
  *= require jquery-ui/sunny
  *= require_tree .
  *= require_self
