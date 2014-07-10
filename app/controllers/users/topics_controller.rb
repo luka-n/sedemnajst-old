@@ -5,7 +5,7 @@ class Users::TopicsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
     @topics = @user.topics.
-      order(map_sort_key(params[:sort], :last_post_remote_created_at_desc)).
+      order(map_sort_key(params[:sort], "last_post_remote_created_at_desc")).
       page(params[:page] || 1).per(40)
     @title = "teme od #@user"
     respond_with @topics

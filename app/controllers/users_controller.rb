@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def index
     @users_q = User.ransack(params[:users_q])
     @users = @users_q.result.
-      order(map_sort_key(params[:sort], :name)).
+      order(map_sort_key(params[:sort], "name")).
       page(params[:page] || 1).per(40)
     @title = "uporabniki"
     respond_with @users

@@ -13,7 +13,7 @@ class TopicsController < ApplicationController
     @topics_q.last_post_remote_created_at_lteq =
       @topics_q.last_post_remote_created_at_lteq.end_of_day
     @topics = @topics_q.result.
-      order(map_sort_key(params[:sort], :last_post_remote_created_at_desc)).
+      order(map_sort_key(params[:sort], "last_post_remote_created_at_desc")).
       page(params[:page] || 1).per(40)
     respond_with @topics
   end
