@@ -14,6 +14,7 @@
  *= require jquery-ui/datepicker
  *= require jquery-ui/slider
  *= require jquery-ui/sunny
+ *= require nprogress-config
  *= require_tree .
  *= require_self
  */

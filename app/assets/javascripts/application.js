@@ -19,4 +19,7 @@
 //= require highcharts
 //= require chartkick
 //= require turbolinks
+//= require nprogress
+//= require nprogress-turbolinks
+//= require nprogress-config
 //= require_tree .

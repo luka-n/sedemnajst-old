@@ -1,0 +1,4 @@
+$nprogress-color: #e20021;
+@import "nprogress";
+/* kill blur effect */
+#nprogress .peg { display: none; }
