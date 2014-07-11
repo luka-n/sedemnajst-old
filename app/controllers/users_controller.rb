@@ -14,67 +14,57 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @ppd_q = params[:ppd_q] || "last_week"
-    @ppdow_q = params[:ppdow_q] || "last_week"
-    @pphod_q = params[:pphod_q] || "last_week"
     @title = @user.to_s
     respond_with @user
   end
 
-  def ppd
+  def pph
     user = User.find(params[:id])
-    ppd_gt = q_to_date(params[:q] || "last_week")
-    ppd_posts = if ppd_gt
-                  user.posts.where("remote_created_at > ?", ppd_gt)
-                else
-                  user.posts
-                end
-    posts_per_day = ppd_posts.group_by_day(:remote_created_at).count
-    render json: posts_per_day
+    data = user.posts.group_by_hour(:remote_created_at).count.map do |k,v|
+      [k.to_i * 1000, v]
+    end
+    render json: data
   end
 
   def ppdow
     user = User.find(params[:id])
-    ppdow_gt = q_to_date(params[:q] || "last_week")
-    ppdow_posts = if ppdow_gt
-                    user.posts.where("remote_created_at > ?", ppdow_gt)
-                  else
-                    user.posts
-                  end
-    posts_per_dow = ppdow_posts.group_by_day_of_week(:remote_created_at).count.
+    from = q_to_date_time(params[:q] || "last_month")
+    to = DateTime.now.end_of_day
+    posts = user.posts.where("remote_created_at BETWEEN ? AND ?", from, to)
+    data = posts.group_by_day_of_week(:remote_created_at).count.
       map { |k,v| [dow_to_name(k), v] }
-    render json: posts_per_dow
+    render json: data
   end
 
   def pphod
     user = User.find(params[:id])
-    pphod_gt = q_to_date(params[:q] || "last_week")
-    pphod_posts = if pphod_gt
-                    user.posts.where("remote_created_at > ?", pphod_gt)
-                  else
-                    user.posts
-                  end
-    posts_per_hod = pphod_posts.group_by_hour_of_day(:remote_created_at).count
-    render json: posts_per_hod
+    from = q_to_date_time(params[:q] || "last_month")
+    to = DateTime.now.end_of_day
+    posts = user.posts.where("remote_created_at BETWEEN ? AND ?", from, to)
+    data = posts.group_by_hour_of_day(:remote_created_at).count.to_a
+    render json: data
   end
 
   private
 
-  def q_to_date(q)
-    case q when "all_time" then nil
-    when "last_year" then Date.today - 1.year
-    when "last_month" then Date.today - 1.month
-    when "last_week" then Date.today - 1.week end
+  def q_to_date_time(q)
+    case q
+    when "all_time" then DateTime.new(1970)
+    when "last_year" then DateTime.now.beginning_of_day - 1.year
+    when "last_month" then DateTime.now.beginning_of_day - 1.month
+    when "last_week" then DateTime.now.beginning_of_day - 1.week
+    end
   end
 
   def dow_to_name(dow)
     case dow
-    when 0 then "Pon"
-    when 1 then "Tor"
-    when 2 then "Sre"
-    when 3 then "Čet"
-    when 4 then "Pet"
-    when 5 then "Sob"
-    when 6 then "Ned" end
+    when 0 then "pon"
+    when 1 then "tor"
+    when 2 then "sre"
+    when 3 then "čet"
+    when 4 then "pet"
+    when 5 then "sob"
+    when 6 then "ned"
+    end
   end
 end

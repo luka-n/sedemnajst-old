@@ -9,21 +9,19 @@
       = link_to @user.topics_count, user_topics_path(@user)
   = avatar_img @user
 
-#ppd-chart.section{:"data-user-id" => @user.id}
+#pph-chart.section{:"data-user-id" => @user.id}
   %h2.section-heading posti skozi čas:
   .section-content
-    = chart_filter :ppd, @ppd_q
-    #ppd-chart-container.chart-container
-    %p.hint NAMIG: pričujoči graf se ponaša z "zoom" funkcijo--le klikni in povleci!
+    #pph-chart-container.chart-container
 
 #ppdow-chart.section{:"data-user-id" => @user.id}
   %h2.section-heading posti glede na dan v tednu:
   .section-content
-    = chart_filter :ppdow, @ppdow_q
+    = chart_filter :ppdow
     #ppdow-chart-container.chart-container
 
 #pphod-chart.section{:"data-user-id" => @user.id}
   %h2.section-heading posti glede na uro v dnevu:
   .section-content
-    = chart_filter :pphod, @pphod_q
+    = chart_filter :pphod
     #pphod-chart-container.chart-container
