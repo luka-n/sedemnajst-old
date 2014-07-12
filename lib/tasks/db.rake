@@ -6,5 +6,11 @@ namespace :db do
       execute "REFRESH MATERIALIZED VIEW user_posts_by_dow"
     ActiveRecord::Base.connection.
       execute "REFRESH MATERIALIZED VIEW user_posts_by_hod"
+    ActiveRecord::Base.connection.
+      execute "REFRESH MATERIALIZED VIEW posts_by_hour"
+    ActiveRecord::Base.connection.
+      execute "REFRESH MATERIALIZED VIEW posts_by_dow"
+    ActiveRecord::Base.connection.
+      execute "REFRESH MATERIALIZED VIEW posts_by_hod"
   end
 end
