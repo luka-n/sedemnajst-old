@@ -53,13 +53,13 @@ class Post < ActiveRecord::Base
     where("date_part('dow', remote_created_at) = ?", dow)
   }
 
-  scope :remote_created_at_hour_eq, -> hour {
-    where("date_part('hour', remote_created_at) = ?", hour)
+  scope :remote_created_at_hod_eq, -> hod {
+    where("date_part('hour', remote_created_at) = ?", hod)
   }
 
   def self.ransackable_scopes(auth_object=nil)
     [:remote_created_on_eq, :remote_created_on_dow_eq,
-     :remote_created_at_hour_eq]
+     :remote_created_at_hod_eq]
   end
 
   private
