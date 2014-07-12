@@ -4,7 +4,7 @@ class UserPostsByHour < ActiveRecord::Base
   belongs_to :user
 
   class << self
-    def time_series_for(user)
+    def series_for(user)
       data = connection.execute <<SQL
 WITH series AS (
   SELECT user_id,

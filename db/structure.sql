@@ -185,6 +185,34 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 
 
 --
+-- Name: user_posts_by_dow; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE MATERIALIZED VIEW user_posts_by_dow AS
+ SELECT posts.user_id,
+    date_trunc('day'::text, posts.remote_created_at) AS day,
+    date_part('dow'::text, posts.remote_created_at) AS dow,
+    count(*) AS posts_count
+   FROM posts
+  GROUP BY posts.user_id, date_trunc('day'::text, posts.remote_created_at), date_part('dow'::text, posts.remote_created_at)
+  WITH NO DATA;
+
+
+--
+-- Name: user_posts_by_hod; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE MATERIALIZED VIEW user_posts_by_hod AS
+ SELECT posts.user_id,
+    date_trunc('hour'::text, posts.remote_created_at) AS hour,
+    date_part('hour'::text, posts.remote_created_at) AS hod,
+    count(*) AS posts_count
+   FROM posts
+  GROUP BY posts.user_id, date_trunc('hour'::text, posts.remote_created_at), date_part('hour'::text, posts.remote_created_at)
+  WITH NO DATA;
+
+
+--
 -- Name: user_posts_by_hour; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -335,6 +363,20 @@ CREATE INDEX index_topics_on_user_id ON topics USING btree (user_id);
 
 
 --
+-- Name: index_user_posts_by_dow_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_dow_on_user_id ON user_posts_by_dow USING btree (user_id);
+
+
+--
+-- Name: index_user_posts_by_hod_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hod_on_user_id ON user_posts_by_hod USING btree (user_id);
+
+
+--
 -- Name: index_user_posts_by_hour_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -420,4 +462,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140701124753');
 INSERT INTO schema_migrations (version) VALUES ('20140704091318');
 
 INSERT INTO schema_migrations (version) VALUES ('20140712092031');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712124444');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712140036');
 

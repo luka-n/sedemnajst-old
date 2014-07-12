@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
 
   has_many :user_posts_by_hour
+  has_many :user_posts_by_dow
+  has_many :user_posts_by_hod
 
   has_attached_file :avatar, styles: {small: "48x48", medium: "72x72"},
     url: "/avatars/:id/:style/:filename"

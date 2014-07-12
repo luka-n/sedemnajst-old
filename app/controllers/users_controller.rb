@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
   def pph
     user = User.find(params[:id])
-    data = UserPostsByHour.time_series_for(user)
+    data = UserPostsByHour.series_for(user)
     render json: Oj.dump(data)
   end
 
@@ -28,19 +28,16 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     from = q_to_date_time(params[:q] || "last_month")
     to = DateTime.now.end_of_day
-    posts = user.posts.where("remote_created_at BETWEEN ? AND ?", from, to)
-    data = posts.group_by_day_of_week(:remote_created_at).count.
-      map { |k,v| [dow_to_name(k), v] }
-    render json: data
+    data = UserPostsByDow.series_for(user, between: from..to)
+    render json: Oj.dump(data)
   end
 
   def pphod
     user = User.find(params[:id])
     from = q_to_date_time(params[:q] || "last_month")
     to = DateTime.now.end_of_day
-    posts = user.posts.where("remote_created_at BETWEEN ? AND ?", from, to)
-    data = posts.group_by_hour_of_day(:remote_created_at).count.to_a
-    render json: data
+    data = UserPostsByHod.series_for(user, between: from..to)
+    render json: Oj.dump(data)
   end
 
   private
@@ -51,18 +48,6 @@ class UsersController < ApplicationController
     when "last_year" then DateTime.now.beginning_of_day - 1.year
     when "last_month" then DateTime.now.beginning_of_day - 1.month
     when "last_week" then DateTime.now.beginning_of_day - 1.week
-    end
-  end
-
-  def dow_to_name(dow)
-    case dow
-    when 0 then "pon"
-    when 1 then "tor"
-    when 2 then "sre"
-    when 3 then "čet"
-    when 4 then "pet"
-    when 5 then "sob"
-    when 6 then "ned"
     end
   end
 end
