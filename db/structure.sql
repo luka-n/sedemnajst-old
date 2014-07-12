@@ -127,10 +127,10 @@ CREATE TABLE posts (
 
 CREATE MATERIALIZED VIEW posts_by_dow AS
  SELECT date_trunc('day'::text, posts.remote_created_at) AS day,
-    date_part('dow'::text, posts.remote_created_at) AS dow,
+    date_part('isodow'::text, posts.remote_created_at) AS dow,
     count(*) AS posts_count
    FROM posts
-  GROUP BY date_trunc('day'::text, posts.remote_created_at), date_part('dow'::text, posts.remote_created_at)
+  GROUP BY date_trunc('day'::text, posts.remote_created_at), date_part('isodow'::text, posts.remote_created_at)
   WITH NO DATA;
 
 
@@ -512,4 +512,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140712174114');
 INSERT INTO schema_migrations (version) VALUES ('20140712211229');
 
 INSERT INTO schema_migrations (version) VALUES ('20140712211240');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712214123');
 
