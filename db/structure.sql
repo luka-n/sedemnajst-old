@@ -191,10 +191,10 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 CREATE MATERIALIZED VIEW user_posts_by_dow AS
  SELECT posts.user_id,
     date_trunc('day'::text, posts.remote_created_at) AS day,
-    date_part('dow'::text, posts.remote_created_at) AS dow,
+    date_part('isodow'::text, posts.remote_created_at) AS dow,
     count(*) AS posts_count
    FROM posts
-  GROUP BY posts.user_id, date_trunc('day'::text, posts.remote_created_at), date_part('dow'::text, posts.remote_created_at)
+  GROUP BY posts.user_id, date_trunc('day'::text, posts.remote_created_at), date_part('isodow'::text, posts.remote_created_at)
   WITH NO DATA;
 
 
@@ -466,4 +466,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140712092031');
 INSERT INTO schema_migrations (version) VALUES ('20140712124444');
 
 INSERT INTO schema_migrations (version) VALUES ('20140712140036');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712143841');
 
