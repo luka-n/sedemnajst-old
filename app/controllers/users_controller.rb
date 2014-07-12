@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def pph
     user = User.find(params[:id])
     data = UserPostsByHour.time_series_for(user)
-    render json: data
+    render json: Oj.dump(data)
   end
 
   def ppdow
