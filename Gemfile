@@ -25,6 +25,7 @@ gem "jquery-turbolinks"
 gem "hairtrigger"
 gem "nprogress-rails"
 gem "oj"
+gem "oj_mimic_json"
 
 gem "ransack", git: "https://github.com/activerecord-hackery/ransack"
 
