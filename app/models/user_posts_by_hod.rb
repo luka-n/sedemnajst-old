@@ -31,7 +31,7 @@ FROM series
 LEFT JOIN counts ON counts.hod = series.hod
 ORDER BY series.hod
 SQL
-      data.map { |i| [i["hod"].to_i, i["posts_count"].to_i] }
+      data.map { |i| i["posts_count"].to_i }
     end
   end
 end

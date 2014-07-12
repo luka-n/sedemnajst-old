@@ -50,7 +50,7 @@ class Post < ActiveRecord::Base
   }
 
   scope :remote_created_on_dow_eq, -> dow {
-    where("date_part('isodow', remote_created_at) = ?", dow.to_i + 1)
+    where("date_part('isodow', remote_created_at) = ?", dow.to_i)
   }
 
   scope :remote_created_at_hod_eq, -> hod {

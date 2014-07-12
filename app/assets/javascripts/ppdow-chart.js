@@ -4,7 +4,7 @@ $(function () {
   if (!user_id) { return; }
   function pointClick(ev) {
     window.open("/users/" + user_id +
-                "/posts?posts_q[remote_created_on_dow_eq]=" + ev.point.x,
+                "/posts?posts_q[remote_created_on_dow_eq]=" + (ev.point.x + 1),
                 "_blank");
   }
   $.getJSON("/users/" + user_id + "/ppdow?q=" + q, function(data) {

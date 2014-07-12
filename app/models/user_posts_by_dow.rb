@@ -31,7 +31,7 @@ FROM series
 LEFT JOIN counts ON counts.dow = series.dow
 ORDER BY series.dow
 SQL
-      data.map { |i| [i["dow"].to_i - 1, i["posts_count"].to_i] }
+      data.map { |i| i["posts_count"].to_i }
     end
   end
 end
