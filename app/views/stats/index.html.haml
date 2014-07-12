@@ -1,20 +1,9 @@
-#user-header
-  #user-info
-    %h2= @user
-    %p
-      število postov:
-      = link_to @user.posts_count, user_posts_path(@user)
-    %p
-      število tem:
-      = link_to @user.topics_count, user_topics_path(@user)
-  = avatar_img @user
-
-#pph-chart.section{:"data-user-id" => @user.id}
-  %h2.section-heading posti skozi čas:
+#pph-chart.section
+  %h2.section-heading utrip gnoja:
   .section-content
     #pph-chart-container.chart-container
 
-#ppdow-chart.section{:"data-user-id" => @user.id}
+#ppdow-chart.section
   %h2.section-heading posti glede na dan v tednu:
   .section-content
     #ppdow-chart-container.chart-container
@@ -23,7 +12,7 @@
     #ppdow-chart-to.chart-to
     .clear
 
-#pphod-chart.section{:"data-user-id" => @user.id}
+#pphod-chart.section
   %h2.section-heading posti glede na uro v dnevu:
   .section-content
     #pphod-chart-container.chart-container

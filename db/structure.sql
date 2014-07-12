@@ -122,6 +122,44 @@ CREATE TABLE posts (
 
 
 --
+-- Name: posts_by_dow; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE MATERIALIZED VIEW posts_by_dow AS
+ SELECT date_trunc('day'::text, posts.remote_created_at) AS day,
+    date_part('dow'::text, posts.remote_created_at) AS dow,
+    count(*) AS posts_count
+   FROM posts
+  GROUP BY date_trunc('day'::text, posts.remote_created_at), date_part('dow'::text, posts.remote_created_at)
+  WITH NO DATA;
+
+
+--
+-- Name: posts_by_hod; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE MATERIALIZED VIEW posts_by_hod AS
+ SELECT date_trunc('hour'::text, posts.remote_created_at) AS hour,
+    date_part('hour'::text, posts.remote_created_at) AS hod,
+    count(*) AS posts_count
+   FROM posts
+  GROUP BY date_trunc('hour'::text, posts.remote_created_at), date_part('hour'::text, posts.remote_created_at)
+  WITH NO DATA;
+
+
+--
+-- Name: posts_by_hour; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE MATERIALIZED VIEW posts_by_hour AS
+ SELECT date_trunc('hour'::text, posts.remote_created_at) AS hour,
+    count(*) AS posts_count
+   FROM posts
+  GROUP BY date_trunc('hour'::text, posts.remote_created_at)
+  WITH NO DATA;
+
+
+--
 -- Name: posts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -468,4 +506,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140712124444');
 INSERT INTO schema_migrations (version) VALUES ('20140712140036');
 
 INSERT INTO schema_migrations (version) VALUES ('20140712143841');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712174114');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712211229');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712211240');
 

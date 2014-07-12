@@ -26,18 +26,30 @@ class UsersController < ApplicationController
 
   def ppdow
     user = User.find(params[:id])
-    from = q_to_date_time(params[:q] || "last_month")
-    to = DateTime.now.end_of_day
-    data = UserPostsByDow.series_for(user, between: from..to)
-    render json: Oj.dump(data)
+    options = {}
+    if (q = params[:user_posts_by_dow_q])
+      from = DateTime.parse(q[:day_gt])
+      to = DateTime.parse(q[:day_lt])
+      options[:between] = from..to
+    end
+    data = UserPostsByDow.series_for(user, options)
+    min = user.posts.minimum(:remote_created_at).to_i
+    max = user.posts.maximum(:remote_created_at).to_i
+    render json: Oj.dump(data: data, min: min, max: max)
   end
 
   def pphod
     user = User.find(params[:id])
-    from = q_to_date_time(params[:q] || "last_month")
-    to = DateTime.now.end_of_day
-    data = UserPostsByHod.series_for(user, between: from..to)
-    render json: Oj.dump(data)
+    options = {}
+    if (q = params[:user_posts_by_hod_q])
+      from = DateTime.parse(q[:day_gt])
+      to = DateTime.parse(q[:day_lt])
+      options[:between] = from..to
+    end
+    data = UserPostsByHod.series_for(user, options)
+    min = user.posts.minimum(:remote_created_at).to_i
+    max = user.posts.maximum(:remote_created_at).to_i
+    render json: Oj.dump(data: data, min: min, max: max)
   end
 
   private

@@ -1,11 +1,12 @@
 class PostsController < ApplicationController
   include SortablePosts
-  respond_to :xml, :json
+  respond_to :html, :xml, :json
 
   def index
-    @posts = Post.
+    @posts = Post.ransack(params[:posts_q]).result.
       order(map_sort_key(params[:sort], "remote_created_at_desc")).
       page(params[:page] || 1).per(40)
+    @title = "posti"
     respond_with @posts
   end
 

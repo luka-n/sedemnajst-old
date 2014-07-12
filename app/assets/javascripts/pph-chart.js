@@ -1,16 +1,28 @@
 $(function() {
-  var user_id = $("#pph-chart").data("user-id");
-  if (!user_id) { return; }
+  var user_id = $("#pph-chart").data("user-id"),
+      url;
+  if (!$("#pph-chart").length) { return; }
+  if (user_id) {
+    url = "/users/" + user_id + "/pph";
+  } else {
+    url = "/stats/pph";
+  }
   function pointClick(ev) {
     var points = ev.point.series.points,
         from = Highcharts.dateFormat("%d.%m.%Y", ev.point.x),
         to = Highcharts.
           dateFormat("%d.%m.%Y", points[points.indexOf(ev.point) + 1].x),
-        url = "/users/" + user_id + "/posts?posts_q[remote_created_at_gt]=" +
-          from + "&posts_q[remote_created_at_lt]=" + to;
+        url;
+    if (user_id) {
+      url = "/users/" + user_id + "/posts?posts_q[remote_created_at_gt]=" +
+        from + "&posts_q[remote_created_at_lt]=" + to;
+    } else {
+      url = "/posts?posts_q[remote_created_at_gt]=" + from +
+        "&posts_q[remote_created_at_lt]=" + to;
+    }
     window.open(url, "_blank");
   }
-  $.getJSON("/users/" + user_id + "/pph", function(data) {
+  $.getJSON(url, function(data) {
     $("#pph-chart-container").highcharts("StockChart", {
       colors: ["#ffcf3e"],
       navigator: {
@@ -50,7 +62,8 @@ $(function() {
         enabled: false
       },
       series: [{
-	data: data
+	data: data,
+        name: "postov"
       }]
     });
     $("#pph-chart-container").highcharts().xAxis[0].

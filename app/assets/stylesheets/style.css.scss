@@ -82,6 +82,25 @@ h2 { font-size: 1.5em; margin: 0.5em 0; }
   height: 300px;
 }
 
+.chart-from, .chart-slider, .chart-to { margin-top: 0.5em; }
+
+.chart-from, .chart-to {
+  color: #f6931f;
+  font-weight: bold;
+}
+
+.chart-from {
+  float: left;
+  width: 10%;
+}
+
+.chart-slider {
+  float: left;
+  width: 80%;
+}
+
+.chart-to { float: right; }
+
 .pager {
   font-size: 1.2em;
   font-weight: bold;
