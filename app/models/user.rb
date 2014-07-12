@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   has_many :topics, dependent: :destroy
   has_many :posts, dependent: :destroy
 
+  has_many :user_posts_by_hour
+
   has_attached_file :avatar, styles: {small: "48x48", medium: "72x72"},
     url: "/avatars/:id/:style/:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

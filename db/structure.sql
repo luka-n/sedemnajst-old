@@ -185,6 +185,19 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 
 
 --
+-- Name: user_posts_by_hour; Type: MATERIALIZED VIEW; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE MATERIALIZED VIEW user_posts_by_hour AS
+ SELECT posts.user_id,
+    date_trunc('hour'::text, posts.remote_created_at) AS hour,
+    count(*) AS posts_count
+   FROM posts
+  GROUP BY posts.user_id, date_trunc('hour'::text, posts.remote_created_at)
+  WITH NO DATA;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -322,6 +335,13 @@ CREATE INDEX index_topics_on_user_id ON topics USING btree (user_id);
 
 
 --
+-- Name: index_user_posts_by_hour_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hour_on_user_id ON user_posts_by_hour USING btree (user_id);
+
+
+--
 -- Name: index_users_on_remote_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -398,4 +418,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140609205518');
 INSERT INTO schema_migrations (version) VALUES ('20140701124753');
 
 INSERT INTO schema_migrations (version) VALUES ('20140704091318');
+
+INSERT INTO schema_migrations (version) VALUES ('20140712092031');
 

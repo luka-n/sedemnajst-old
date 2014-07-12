@@ -20,9 +20,8 @@ class UsersController < ApplicationController
 
   def pph
     user = User.find(params[:id])
-    data = user.posts.group_by_hour(:remote_created_at).count.map do |k,v|
-      [k.to_i * 1000, v]
-    end
+    data = UserPostsByHour.time_series_for(user).
+      map { |i| [i.hour.to_i * 1000, i.posts_count] }
     render json: data
   end
 
