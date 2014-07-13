@@ -163,6 +163,8 @@ input[type="text"] {
   font-family: Verdana, sans-serif;
 }
 
+.ui-slider-handle { outline: none; }
+
 /* -- USERS TABLE ----------------------------------------------------------- */
 
 #users-header h2 { float: left; }
