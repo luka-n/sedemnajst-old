@@ -84,6 +84,9 @@ $(function () {
     });
     $("#ppdow-chart-filter").css("visibility", "visible");
     $("#ppdow-chart-container").highcharts({
+      credits: {
+        enabled: false
+      },
       colors: ["#ffcf3e"],
       chart: {
         backgroundColor: "#ffe495",

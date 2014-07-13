@@ -24,6 +24,9 @@ $(function() {
   }
   $.getJSON(url, function(data) {
     $("#pph-chart-container").highcharts("StockChart", {
+      credits: {
+        enabled: false
+      },
       colors: ["#ffcf3e"],
       navigator: {
 	series: {
