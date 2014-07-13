@@ -21,10 +21,18 @@ $(function() {
     }
   });
   $("#topics_q_last_post_remote_created_at_lteq").datepicker({
-    dateFormat: "dd.mm.yy"
+    onSelect: function(date) {
+      $("#date-slider").slider("values", 1,
+                               $.datepicker.parseDate("dd.mm.yy", date).
+                               getTime() / 1000);
+    }
   });
   $("#topics_q_last_post_remote_created_at_gteq").datepicker({
-    dateFormat: "dd.mm.yy"
+    onSelect: function(date) {
+      $("#date-slider").slider("values", 0,
+                               $.datepicker.parseDate("dd.mm.yy", date).
+                               getTime() / 1000);
+    }
   });
   $("#archive-settings-toggle").on("click", function() {
     $("#archive-settings").toggle();

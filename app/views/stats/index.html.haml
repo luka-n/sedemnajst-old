@@ -1,22 +1,22 @@
 #pph-chart.section
   %h2.section-heading utrip gnoja:
-  .section-content
+  .section-content.chart-block
     #pph-chart-container.chart-container
 
 #ppdow-chart.section
   %h2.section-heading posti glede na dan v tednu:
-  .section-content
+  .section-content.chart-block
+    = render partial: "/shared/chart_filter",
+        locals: {name: "ppdow", value: "three_months"}
     #ppdow-chart-container.chart-container
-    #ppdow-chart-from.chart-from
     #ppdow-chart-slider.chart-slider
-    #ppdow-chart-to.chart-to
     .clear
 
 #pphod-chart.section
   %h2.section-heading posti glede na uro v dnevu:
-  .section-content
+  .section-content.chart-block
+    = render partial: "/shared/chart_filter",
+        locals: {name: "pphod", value: "three_months"}
     #pphod-chart-container.chart-container
-    #pphod-chart-from.chart-from
     #pphod-chart-slider.chart-slider
-    #pphod-chart-to.chart-to
     .clear

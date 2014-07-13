@@ -1,11 +1,11 @@
 #archive-settings{class: params[:topics_q] ? "active" : "inactive"}
   #date-slider
   = search_form_for @topics_q, as: :topics_q do |f|
-    kaži mi teme od
-    = f.text_field :last_post_remote_created_at_gteq, size: 8,
+    = label_tag :last_post_remote_created_at_gteq, "kaži mi teme od"
+    = f.text_field :last_post_remote_created_at_gteq,
         value: @topics_q.last_post_remote_created_at_gteq.strftime("%d.%m.%Y")
-    do
-    = f.text_field :last_post_remote_created_at_lteq, size: 8,
+    = label_tag :last_post_remote_created_at_lteq, "do"
+    = f.text_field :last_post_remote_created_at_lteq,
         value: @topics_q.last_post_remote_created_at_lteq.strftime("%d.%m.%Y")
     = f.submit "poženi, schatz!"
 

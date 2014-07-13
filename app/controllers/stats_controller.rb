@@ -14,11 +14,15 @@ class StatsController < ApplicationController
       from = DateTime.parse(q[:day_gt])
       to = DateTime.parse(q[:day_lt])
       options[:between] = from..to
+    else
+      options[:between] = (DateTime.now - 3.months)..DateTime.now
     end
     data = PostsByDow.series(options)
-    min = Post.minimum(:remote_created_at).to_i
-    max = Post.maximum(:remote_created_at).to_i
-    render json: Oj.dump(data: data, min: min, max: max)
+    min = PostsByDow.minimum(:day).to_i
+    max = PostsByDow.maximum(:day).to_i
+    render json: Oj.dump(data: data, min: min, max: max,
+                         from: options[:between].min.to_i,
+                         to: options[:between].max.to_i)
   end
 
   def pphod
@@ -27,10 +31,14 @@ class StatsController < ApplicationController
       from = DateTime.parse(q[:day_gt])
       to = DateTime.parse(q[:day_lt])
       options[:between] = from..to
+    else
+      options[:between] = (DateTime.now - 3.months)..DateTime.now
     end
     data = PostsByHod.series(options)
-    min = Post.minimum(:remote_created_at).to_i
-    max = Post.maximum(:remote_created_at).to_i
-    render json: Oj.dump(data: data, min: min, max: max)
+    min = PostsByHod.minimum(:hour).to_i
+    max = PostsByHod.maximum(:hour).to_i
+    render json: Oj.dump(data: data, min: min, max: max,
+                         from: options[:between].min.to_i,
+                         to: options[:between].max.to_i)
   end
 end

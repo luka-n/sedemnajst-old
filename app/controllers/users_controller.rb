@@ -31,11 +31,15 @@ class UsersController < ApplicationController
       from = DateTime.parse(q[:day_gt])
       to = DateTime.parse(q[:day_lt])
       options[:between] = from..to
+    else
+      options[:between] = (DateTime.now - 3.months)..DateTime.now
     end
     data = UserPostsByDow.series_for(user, options)
-    min = user.posts.minimum(:remote_created_at).to_i
-    max = user.posts.maximum(:remote_created_at).to_i
-    render json: Oj.dump(data: data, min: min, max: max)
+    min = UserPostsByDow.minimum(:day).to_i
+    max = UserPostsByDow.maximum(:day).to_i
+    render json: Oj.dump(data: data, min: min, max: max,
+                         from: options[:between].min.to_i,
+                         to: options[:between].max.to_i)
   end
 
   def pphod
@@ -45,21 +49,14 @@ class UsersController < ApplicationController
       from = DateTime.parse(q[:day_gt])
       to = DateTime.parse(q[:day_lt])
       options[:between] = from..to
+    else
+      options[:between] = (DateTime.now - 3.months)..DateTime.now
     end
     data = UserPostsByHod.series_for(user, options)
-    min = user.posts.minimum(:remote_created_at).to_i
-    max = user.posts.maximum(:remote_created_at).to_i
-    render json: Oj.dump(data: data, min: min, max: max)
-  end
-
-  private
-
-  def q_to_date_time(q)
-    case q
-    when "all_time" then DateTime.new(1970)
-    when "last_year" then DateTime.now.beginning_of_day - 1.year
-    when "last_month" then DateTime.now.beginning_of_day - 1.month
-    when "last_week" then DateTime.now.beginning_of_day - 1.week
-    end
+    min = UserPostsByHod.minimum(:hour).to_i
+    max = UserPostsByHod.maximum(:hour).to_i
+    render json: Oj.dump(data: data, min: min, max: max,
+                         from: options[:between].min.to_i,
+                         to: options[:between].max.to_i)
   end
 end

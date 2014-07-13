@@ -1,0 +1,17 @@
+= form_tag "", class: "chart-filter", id: "#{name}-chart-filter" do
+  = content_tag(:div, class: "chart-filter-buttons") do
+    = radio_button_tag "#{name}_range", "one_month", value == "one_month"
+    = label_tag "#{name}_range_one_month", "1 mesec"
+    = radio_button_tag "#{name}_range", "three_months", value == "three_months"
+    = label_tag "#{name}_range_three_months", "3 meseci"
+    = radio_button_tag "#{name}_range", "six_months", value == "six_months"
+    = label_tag "#{name}_range_six_months", "6 mesecev"
+    = radio_button_tag "#{name}_range", "one_year", value == "one_year"
+    = label_tag "#{name}_range_one_year", "1 leto"
+    = radio_button_tag "#{name}_range", "all_time", value == "all_time"
+    = label_tag "#{name}_range_all_time", "vseskozi"
+  = content_tag(:div, class: "chart-filter-input") do
+    = label_tag "#{name}_from", "od"
+    = text_field_tag "#{name}_from"
+    = label_tag "#{name}_to", "do"
+    = text_field_tag "#{name}_to"

@@ -10,6 +10,13 @@ GIT
       polyamorous (~> 1.0.0)
 
 GIT
+  remote: https://github.com/ankit8898/highstock-rails
+  revision: b050f127628742741130cf1f9bffc9addbf637cd
+  specs:
+    highstocks-rails (1.3.10)
+      railties (>= 3.1)
+
+GIT
   remote: https://github.com/capistrano/capistrano
   revision: bb2ed22893f1116face0c39fc24c5e0792e86a26
   specs:
@@ -121,8 +128,6 @@ GEM
     haml (4.0.5)
       tilt
     highline (1.6.21)
-    highstocks-rails (1.3.10)
-      railties (>= 3.1)
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -290,7 +295,7 @@ DEPENDENCIES
   groupdate
   hairtrigger
   haml
-  highstocks-rails
+  highstocks-rails!
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails

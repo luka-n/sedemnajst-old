@@ -16,7 +16,7 @@
 //= require jquery-ui/button
 //= require jquery-ui/datepicker
 //= require jquery-ui/slider
-//= require highstocks
+//= require highstock
 //= require chartkick
 //= require turbolinks
 //= require nprogress

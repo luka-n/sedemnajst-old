@@ -72,35 +72,6 @@ th {
 
 h2 { font-size: 1.5em; margin: 0.5em 0; }
 
-.chart-filter {
-  text-align: center;
-  margin: 1em 0;
-}
-
-.chart-container {
-  background: url(asset-path("loader.gif")) no-repeat center center;
-  height: 300px;
-}
-
-.chart-from, .chart-slider, .chart-to { margin-top: 0.5em; }
-
-.chart-from, .chart-to {
-  color: #f6931f;
-  font-weight: bold;
-}
-
-.chart-from {
-  float: left;
-  width: 10%;
-}
-
-.chart-slider {
-  float: left;
-  width: 80%;
-}
-
-.chart-to { float: right; }
-
 .pager {
   font-size: 1.2em;
   font-weight: bold;
@@ -114,6 +85,11 @@ h2 { font-size: 1.5em; margin: 0.5em 0; }
 #archive-settings.inactive { display: none; }
 
 #archive-settings.active { display: block; }
+
+.topic_search label {
+  font-size: 12px;
+  color: #666;
+}
 
 #date-slider { margin: 1em 0; }
 
@@ -133,6 +109,8 @@ h2 { font-size: 1.5em; margin: 0.5em 0; }
   border: 0;
   color: #f6931f;
   font-weight: bold;
+  height: 16px;
+  width: 90px;
 }
 
 .citation, .blockquote,         /* new style quotes */
@@ -180,6 +158,10 @@ img[alt="Oglej si sporočilo"] { display: none; }
 }
 
 .section-content { margin: 1em; }
+
+input[type="text"] {
+  font-family: Verdana, sans-serif;
+}
 
 /* -- USERS TABLE ----------------------------------------------------------- */
 
@@ -333,3 +315,91 @@ img[alt="Oglej si sporočilo"] { display: none; }
   vertical-align: middle;
   width: 5em;
 }
+
+/* -- CHARTS ---------------------------------------------------------------- */
+
+.chart-block {
+  background: url(asset-path("loader.gif")) no-repeat center center;
+}
+
+.chart-filter {
+  padding-top: 12px;
+  visibility: hidden;
+  padding-left: 4px;
+  padding-right: 6px;
+}
+
+.chart-filter-buttons {
+  float: left;
+  position: relative;
+  left: 11px;
+  bottom: 3px;
+}
+
+.chart-filter-buttons label {
+  text-align: center;
+  width: 90px;
+  display: inline-block;
+  margin-right: 1px;
+  line-height: 21px;
+  border-radius: 8px;
+  background: #fece2f;
+  color: #4c3000;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 0 1px 1px 1px;
+}
+
+.chart-filter-buttons label:hover {
+  background: #fedb66;
+}
+
+.chart-filter-buttons input:checked + label {
+  background: #fff;
+  color: #0074c7;
+}
+
+.chart-filter-buttons input[type="radio"] {
+  display: none;
+}
+
+.chart-filter-input {
+  float: right;
+  position: relative;
+  bottom: 4px;
+}
+
+.chart-filter-input label {
+  font-size: 12px;
+  color: #666;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.chart-filter-input input[type="text"] {
+  height: 16px;
+  width: 90px;
+  border: 0;
+  background: #ffe495;
+  color: #f6931f;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.chart-container {
+  height: 300px;
+}
+
+#pph-chart-container {
+  height: 368px;
+}
+
+.chart-slider:empty {
+  height: 11px;
+}
+
+.chart-slider {
+  margin: 31px 21px 26px 21px;
+}
+
+.highcharts-range-selector { background-color: #ffe495; }

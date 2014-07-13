@@ -5,6 +5,9 @@ Highcharts.setOptions({
     shortMonths: ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "avg", "sep",
                   "okt", "nov", "dec"],
     weekdays: ["ponedeljek", "torek", "sreda", "četrtek", "petek",
-               "sobota", "nedelja"]
+               "sobota", "nedelja"],
+    rangeSelectorZoom: "",
+    rangeSelectorFrom: "od",
+    rangeSelectorTo: "do"
   }
 });

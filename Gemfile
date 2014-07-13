@@ -19,7 +19,6 @@ gem "groupdate"
 gem "chartkick"
 gem "jquery-ui-rails"
 gem "jquery-ui-themes"
-gem "highstocks-rails"
 gem "rails-i18n"
 gem "jquery-turbolinks"
 gem "hairtrigger"
@@ -28,6 +27,7 @@ gem "oj"
 gem "oj_mimic_json"
 
 gem "ransack", git: "https://github.com/activerecord-hackery/ransack"
+gem "highstocks-rails", git: "https://github.com/ankit8898/highstock-rails"
 
 group :development, :test do
   gem "byebug"

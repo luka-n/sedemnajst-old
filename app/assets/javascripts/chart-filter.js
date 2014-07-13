@@ -1,3 +1,0 @@
-$(function() {
-  $(".chart-filter").buttonset();
-});

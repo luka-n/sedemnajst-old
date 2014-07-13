@@ -56,18 +56,100 @@ $(function() {
       chart: {
         backgroundColor: "#ffe495",
 	zoomType: "x",
-        type: "spline"
+        type: "spline",
+        style: {
+          fontFamily: "Verdana, sans-serif"
+        }
       },
       rangeSelector: {
-        enabled: false
+        allButtonsEnabled: true,
+        selected: 1,
+        inputBoxBorderColor: "#ffe495",
+	inputStyle: {
+          color: "#f6931f",
+	  fontWeight: "bold"
+	},
+        inputDateFormat: "%d.%m.%Y",
+        inputEditDateFormat: "%d.%m.%Y",
+        inputDateParser: function(date) {
+          var parts = date.split(".");
+          return Date.UTC(parts[2], parseInt(parts[1]) - 1, parts[0]);
+        },
+	buttonTheme: {
+	  fill: "#fece2f",
+          width: 88,
+          height: 18,
+	  "stroke-width": 0,
+	  r: 8,
+	  style: {
+	    color: '#4c3000',
+	    fontWeight: 'bold'
+	  },
+	  states: {
+	    hover: {
+              fill: "#fedb66"
+	    },
+	    select: {
+	      fill: '#fff',
+	      style: {
+              color: "#0074c7"
+	      }
+	    }
+	  }
+	},
+        buttonSpacing: 5,
+        buttons: [{
+	  type: "month",
+	  count: 1,
+	  text: "1 mesec"
+        }, {
+	  type: "month",
+	  count: 3,
+	  text: "3 meseci"
+        }, {
+	  type: "month",
+	  count: 6,
+	  text: "6 mesecev"
+        }, {
+	  type: "year",
+	  count: 1,
+	  text: "1 leto"
+        }, {
+	  type: "all",
+	  text: "vseskozi"
+        }]
       },
       series: [{
 	data: data,
-        name: "postov"
-      }]
+        name: "postov",
+        dataGrouping: {
+          dateTimeLabelFormats: {
+            week: ["teden od %A, %b %e, %Y"]
+          }
+        }
+      }],
+      yAxis: {
+        min: 0
+      }
+    }, function(chart) {
+      setTimeout(function(){
+        $("input.highcharts-range-selector", $(chart.options.chart.renderTo)).
+          datepicker({
+            beforeShow: function(i, obj) {
+              $widget = obj.dpDiv;
+              window.$uiDatepickerDiv = $widget;
+              if ($widget.data("top")) {
+                setTimeout(function() {
+                  $uiDatepickerDiv.css("top", $uiDatepickerDiv.data("top"));
+                }, 50);
+              }
+            },
+            onClose: function(i, obj) {
+              $widget = obj.dpDiv;
+              $widget.data("top", $widget.position().top);
+            }
+          });
+      }, 0);
     });
-    $("#pph-chart-container").highcharts().xAxis[0].
-      setExtremes($("#pph-chart-container").highcharts().xAxis[0].max - 7776000000,
-                  $("#pph-chart-container").highcharts().xAxis[0].max);
   });
 });
