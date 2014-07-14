@@ -24,7 +24,7 @@ module ApplicationHelper
     lsa = last_sync_at
     a = lsa
     b = DateTime.now
-    diff = ((b - a) * 24 * 60).to_i
+    diff = ((a - b) * 24 * 60).to_i
     n_minutes_ago = case diff
                     when 0 then "0 minut nazaj"
                     when 1 then "1 minuto nazaj"
