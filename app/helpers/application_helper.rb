@@ -25,7 +25,6 @@ module ApplicationHelper
     a = lsa
     b = DateTime.now
     diff = ((b - a) * 24 * 60).to_i
-    diff = 50
     n_minutes_ago = case diff
                     when 0 then "0 minut nazaj"
                     when 1 then "1 minuto nazaj"
