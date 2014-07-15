@@ -35,13 +35,14 @@ module ApplicationHelper
     if diff < 60
       in_n_minutes = case (n = 60 - diff)
                      when 1 then "čez 1 minuto"
-                     when 2..4 then "čez #{n} minute"
+                     when 2 then "čez 2 minuti"
+                     when 3..4 then "čez #{n} minute"
                      else "čez #{n} minut"
                      end
     end
-    content_tag(:p, "zadnja posodobitev na #{l(lsa, format: :short)} (#{n_minutes_ago})") <<
+    content_tag(:p, "zadnja posodobitev: #{l(lsa, format: :short)} (#{n_minutes_ago})") <<
       (in_n_minutes ?
-       content_tag(:p, "naslednja posodobitev je predvidena za #{in_n_minutes}") :
+       content_tag(:p, "naslednja posodobitev je predvidena #{in_n_minutes}") :
        content_tag(:p, "nova posodobitev menda poteka prav zdaj"))
   end
 end
