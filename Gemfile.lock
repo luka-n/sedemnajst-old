@@ -116,6 +116,9 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     elif (0.1.0)
     erubis (2.7.0)
+    exception_notification (4.0.1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.2.1)
     fastercsv (1.5.5)
     foreigner (1.6.1)
@@ -295,6 +298,7 @@ DEPENDENCIES
   capistrano3-puma
   chartkick
   elif
+  exception_notification
   foreigner
   groupdate
   hairtrigger

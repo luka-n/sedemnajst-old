@@ -11,3 +11,5 @@ test:
 
 production:
   <<: *default
+  exception_recipients:
+    - user@example.com

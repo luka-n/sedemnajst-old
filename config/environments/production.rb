@@ -80,4 +80,15 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  config.middleware.use ExceptionNotification::Rack,
+    email: {
+      email_prefix: "[ERR] ",
+      sender_address: %{17 <#{ENV["USER"]}@#{ENV["HOSTNAME"]}>},
+      exception_recipients: CONFIG[:exception_recipients]
+    }
 end
