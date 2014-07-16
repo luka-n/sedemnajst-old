@@ -88,7 +88,7 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[ERR] ",
-      sender_address: %{17 <#{ENV["USER"]}@#{ENV["HOSTNAME"]}>},
+      sender_address: %{17 <#{ENV["USER"]}@#{Socket.gethostname}>},
       exception_recipients: CONFIG[:exception_recipients]
     }
 end
