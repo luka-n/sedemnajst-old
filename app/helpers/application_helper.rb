@@ -43,7 +43,7 @@ module ApplicationHelper
     return unless second_to_last
     last_n_minutes_ago = ((Time.now - last) / 60).to_i
     next_in_n_minutes = ((last - second_to_last) / 60).to_i - last_n_minutes_ago
-    text = "zadnja posodobitev #{minutes_to_words(last_n_minutes_ago)} nazaj"
+    text = "zadnja posodobitev #{minutes_to_words(-last_n_minutes_ago)} nazaj"
     if next_in_n_minutes > 0
       text << ", naslednja predvidena čez #{minutes_to_words(next_in_n_minutes)}"
     elsif next_in_n_minutes == 0
