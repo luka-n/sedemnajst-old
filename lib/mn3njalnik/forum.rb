@@ -37,15 +37,6 @@ module Mn3njalnik
       hovercard = row.search(".col_f_content a[hovercard-id]")[0]
       topic.user_id = hovercard.attr("hovercard-id").to_i if hovercard
       blob = row.search(".topic_title")[0].attr("title")[21..-1]
-      topic.created_at = if blob =~ /^danes, (\d{2}):(\d{2})$/
-                           DateTime.now.change(hour: $1.to_i, min: $2.to_i)
-                         elsif blob =~ /^včeraj, (\d{2}):(\d{2})$/
-                           (DateTime.now - 1).
-                             change(hour: $1.to_i, min: $2.to_i)
-                         else
-                           DateTime.parse(blob.gsub("avgust", "august").
-                                          gsub(/([a-z]{3})[a-z]+/, "\\1"))
-                         end
       topic.forum = self
       topic
     end

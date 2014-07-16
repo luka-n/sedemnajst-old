@@ -1,35 +1,27 @@
 $(function () {
-  var user_id = $("#ppdow-chart").data("user-id"),
-      url;
+  var user_id = $("#ppdow-chart").data("user-id"), url;
   if (!$("#ppdow-chart").length) { return; }
   if (user_id) { url = "/users/" + user_id + "/ppdow"; }
   else { url = "/stats/ppdow"; }
   function pointClick(ev) {
-    var values = $("#ppdow-chart-slider").slider("values"),
-        from = $.datepicker.formatDate("dd.mm.yy", new Date(values[0] * 1000)),
-        to = $.datepicker.formatDate("dd.mm.yy", new Date(values[1] * 1000)),
-        url;
-    if (user_id) {
-      url = "/users/" + user_id +
-        "/posts?posts_q[remote_created_on_dow_eq]=" + (ev.point.x + 1) +
-        "&posts_q[remote_created_at_gt]=" + from +
-        "&posts_q[remote_created_at_lt]=" + to;
-    } else {
-      url = "/posts?posts_q[remote_created_on_dow_eq]=" + (ev.point.x + 1) +
-        "&posts_q[remote_created_at_gt]=" + from +
-        "&posts_q[remote_created_at_lt]=" + to;
-    }
+    var url;
+    if (user_id) { url = "/users/" + user_id + "/posts"; }
+    else { url = "/posts"; }
+    url += "?posts_q[remote_created_on_dow_eq]=" + (ev.point.x + 1) +
+      "&posts_q[remote_created_on_gteq]=" + $("#ppdow_from").val() +
+      "&posts_q[remote_created_on_lteq]=" + $("#ppdow_to").val();
     window.open(url, "_blank");
   }
   function reloadData() {
-    var from = $("#ppdow_from").val(), to = $("#ppdow_to").val(), url;
+    var url;
     if (user_id) {
-      url = "/users/" + user_id +
-        "/ppdow?user_posts_by_dow_q[day_gt]=" + from +
-        "&user_posts_by_dow_q[day_lt]=" + to;
+      url = "/users/" + user_id + "/ppdow" +
+        "?user_posts_by_dow_q[day_gteq]=" + $("#ppdow_from").val() +
+        "&user_posts_by_dow_q[day_lteq]=" + $("#ppdow_to").val();
     } else {
-      url = "/stats/ppdow?posts_by_dow_q[day_gt]=" + from +
-        "&posts_by_dow_q[day_lt]=" + to;
+      url = "/stats/ppdow" +
+        "?posts_by_dow_q[day_gteq]=" + $("#ppdow_from").val() +
+        "&posts_by_dow_q[day_lteq]=" + $("#ppdow_to").val();
     }
     $.getJSON(url, function(json) {
       $("#ppdow-chart-container").highcharts().xAxis[0].series[0].
@@ -40,44 +32,36 @@ $(function () {
     $("[name='ppdow_range']:checked").removeAttr("checked");
   }
   $.getJSON(url, function(json) {
-    $("#ppdow_from").val($.datepicker.
-                         formatDate("dd.mm.yy",
-                                    new Date(json.from * 1000)));
-    $("#ppdow_to").val($.datepicker.
-                       formatDate("dd.mm.yy",
-                                  new Date(json.to * 1000)));
+    $("#ppdow_from").val(moment.utc(json.from).format("DD.MM.YYYY"));
+    $("#ppdow_to").val(moment.utc(json.to).format("DD.MM.YYYY"));
     $("[name='ppdow_range']").on("change", function() {
-      var range = $(this).val(),
-          to = $("#ppdow-chart-slider").slider("option", "max"),
-          from;
-      if (range == "one_month") { from = to - 2592000; }
-      else if (range == "three_months") { from = to - (3 * 2592000); }
-      else if (range == "six_months") { from = to - (6 * 2592000); }
-      else if (range == "one_year") { from = to - (12 * 2592000); }
-      else if (range == "all_time") {
-        from = $("#ppdow-chart-slider").slider("option", "min");
-      }
-      $("#ppdow-chart-slider").slider("values", [from, to]);
-      $("#ppdow_from").val($.datepicker.
-                           formatDate("dd.mm.yy",
-                                      new Date(from * 1000)));
-      $("#ppdow_to").val($.datepicker.
-                         formatDate("dd.mm.yy",
-                                    new Date(to * 1000)));
+      var range = $(this).val(), from;
+      if (range == "one_month") { from = json.max - 2592000000; }
+      else if (range == "three_months") { from = json.max - (3 * 2592000000); }
+      else if (range == "six_months") { from = json.max - (6 * 2592000000); }
+      else if (range == "one_year") { from = json.max - (12 * 2592000000); }
+      else if (range == "all_time") { from = json.min; }
+      $("#ppdow-chart-slider").slider("values", [from, json.max]);
+      $("#ppdow_from").val(moment.utc(from).format("DD.MM.YYYY"));
+      $("#ppdow_to").val(moment.utc(json.max).format("DD.MM.YYYY"));
       reloadData();
     });
     $("#ppdow_from").datepicker({
+      minDate: moment.utc(json.from).format("DD.MM.YYYY"),
+      maxDate: moment.utc(json.to).format("DD.MM.YYYY"),
       onSelect: function(date) {
-        var from = $.datepicker.parseDate("dd.mm.yy", date).getTime() / 1000;
-        $("#ppdow-chart-slider").slider("values", 0, from);
+        $("#ppdow-chart-slider").
+          slider("values", 0, +moment.utc(date, "DD.MM.YYYY"));
         clearButtons();
         reloadData();
       }
     });
     $("#ppdow_to").datepicker({
+      minDate: moment.utc(json.from).format("DD.MM.YYYY"),
+      maxDate: moment.utc(json.to).format("DD.MM.YYYY"),
       onSelect: function(date) {
-        var to = $.datepicker.parseDate("dd.mm.yy", date).getTime() / 1000;
-        $("#ppdow-chart-slider").slider("values", 1, to);
+        $("#ppdow-chart-slider").
+          slider("values", 1, +moment.utc(date, "DD.MM.YYYY"));
         clearButtons();
         reloadData();
       }
@@ -140,18 +124,12 @@ $(function () {
       range: true,
       min: json.min,
       max: json.max,
-      step: 86400,
+      step: 86400000,
       values: [json.from, json.to],
       slide: function(ev, ui) {
-        var values = $("#ppdow-chart-slider").slider("values"),
-            from = $.datepicker.
-              formatDate("dd.mm.yy",
-                         new Date(values[0] * 1000)),
-            to = $.datepicker.
-              formatDate("dd.mm.yy",
-                         new Date(values[1] * 1000));
-        $("#ppdow_from").val(from);
-        $("#ppdow_to").val(to);
+        var values = $("#ppdow-chart-slider").slider("values");
+        $("#ppdow_from").val(moment.utc(values[0]).format("DD.MM.YYYY"));
+        $("#ppdow_to").val(moment.utc(values[1]).format("DD.MM.YYYY"));
       },
       stop: function() {
         clearButtons();

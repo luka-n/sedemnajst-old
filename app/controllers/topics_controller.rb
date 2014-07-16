@@ -3,18 +3,17 @@ class TopicsController < ApplicationController
   respond_to :html, :xml, :json
 
   def index
-    @topics_q = Topic.ransack(params[:topics_q])
-    @topics_q.last_post_remote_created_at_gteq ||=
-      Topic.order(:last_post_remote_created_at).
-      first.last_post_remote_created_at
-    @topics_q.last_post_remote_created_at_lteq ||=
-      Topic.order(:last_post_remote_created_at).
-      last.last_post_remote_created_at
-    @topics_q.last_post_remote_created_at_lteq =
-      @topics_q.last_post_remote_created_at_lteq.end_of_day
+    min_date = Topic.minimum(:last_post_remote_created_at).to_date
+    max_date = Date.today
+    topics_q = params[:topics_q] || {}
+    topics_q[:last_post_remote_created_on_gteq] ||= min_date.strftime("%d.%m.%Y")
+    topics_q[:last_post_remote_created_on_lteq] ||= max_date.strftime("%d.%m.%Y")
+    @topics_q = Topic.ransack(topics_q)
     @topics = @topics_q.result.
       order(map_sort_key(params[:sort], "last_post_remote_created_at_desc")).
       page(params[:page] || 1).per(40)
+    @min = min_date.to_time(:utc).to_i * 1000
+    @max = max_date.to_time(:utc).to_i * 1000
     respond_with @topics
   end
 

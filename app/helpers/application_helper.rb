@@ -14,34 +14,43 @@ module ApplicationHelper
     else link_to "neznanec", "#" end
   end
 
-  def last_sync_at
-    line = Elif.open(File.join(Rails.root, "log", "sync.log")).
-      find { |l| l =~ /Starting sync/ }
-    DateTime.parse(line.match(/\[(.+) .+\]/)[1])
+  # NOTE: only does accusative case
+  def minutes_to_words(minutes)
+    case minutes
+    when 0 then "0 minut"
+    when 1 then "1 minuto"
+    when 2 then "2 minuti"
+    when 3..4 then "#{minutes} minute"
+    else "#{minutes} minut"
+    end
   end
 
-  def footer_text
-    lsa = last_sync_at
-    a = lsa
-    b = DateTime.now
-    diff = ((a - b) * 24 * 60).to_i
-    n_minutes_ago = case diff
-                    when 0 then "0 minut nazaj"
-                    when 1 then "1 minuto nazaj"
-                    when 2 then "2 minuti nazaj"
-                    when 3..4 then "#{diff} minute nazaj"
-                    else "#{diff} minut nazaj"
-                    end
-    if diff < 60
-      in_n_minutes = case (n = 60 - diff)
-                     when 1 then "čez 1 minuto"
-                     when 2..4 then "čez #{n} minute"
-                     else "čez #{n} minut"
-                     end
+  def last_sync_at(nth=1)
+    log_path = File.join(Rails.root, "log", "sync.log")
+    return unless File.exists?(log_path)
+    log = Elif.open(log_path)
+    nth.times do
+      ret = log.find { |l| l =~ /^I, \[(\S+) #\d+\]  INFO -- : Starting sync$/ }
+      return unless ret
     end
-    content_tag(:p, "zadnja posodobitev na #{l(lsa, format: :short)} (#{n_minutes_ago})") <<
-      (in_n_minutes ?
-       content_tag(:p, "naslednja posodobitev je predvidena za #{in_n_minutes}") :
-       content_tag(:p, "nova posodobitev menda poteka prav zdaj"))
+    Time.parse($1)
+  end
+
+  def archive_status_text
+    last = last_sync_at
+    return unless last
+    second_to_last = last_sync_at(2)
+    return unless second_to_last
+    last_n_minutes_ago = ((Time.now - last) / 60).to_i
+    next_in_n_minutes = ((last - second_to_last) / 60).to_i - last_n_minutes_ago
+    text = "zadnja posodobitev #{minutes_to_words(last_n_minutes_ago)} nazaj"
+    if next_in_n_minutes > 0
+      text << ", naslednja predvidena čez #{minutes_to_words(next_in_n_minutes)}"
+    elsif next_in_n_minutes == 0
+      text << ", naslednja menda poteka prav zdaj"
+    else
+      text << ", naslednja pogrešana v akciji" <<
+        " (zamuja že #{minutes_to_words(next_in_n_minutes.abs)})"
+    end
   end
 end

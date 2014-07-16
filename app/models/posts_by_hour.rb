@@ -5,7 +5,7 @@ class PostsByHour < ActiveRecord::Base
     def series
       data = connection.execute <<SQL
 WITH series AS (
-  SELECT generate_series(min(hour), max(hour), '1 hour') AS hour,
+  SELECT generate_series(min(hour), date_trunc('hour', now()), '1 hour') AS hour,
          0 AS posts_count
   FROM posts_by_hour
 ),

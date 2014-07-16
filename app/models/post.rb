@@ -43,10 +43,12 @@ class Post < ActiveRecord::Base
     SQL
   end
 
-  scope :remote_created_on_eq, -> date {
-    dt = DateTime.parse(date)
-    where("remote_created_at BETWEEN ? AND ?",
-          dt, dt.end_of_day)
+  scope :remote_created_on_gteq, -> date {
+    where("remote_created_at >= ?", Time.parse(date))
+  }
+
+  scope :remote_created_on_lteq, -> date {
+    where("remote_created_at <= ?", Time.parse(date).end_of_day)
   }
 
   scope :remote_created_on_dow_eq, -> dow {
@@ -54,18 +56,20 @@ class Post < ActiveRecord::Base
   }
 
   scope :remote_created_at_hod_eq, -> hod {
-    where("date_part('hour', remote_created_at) = ?", hod)
+    where("date_part('hour', remote_created_at) = ?", hod.to_i)
   }
 
-  def self.ransackable_scopes(auth_object=nil)
-    [:remote_created_on_eq, :remote_created_on_dow_eq,
-     :remote_created_at_hod_eq]
+  class << self
+    def ransackable_scopes(auth_object=nil)
+      [:remote_created_on_gteq, :remote_created_on_lteq,
+       :remote_created_on_dow_eq, :remote_created_at_hod_eq]
+    end
   end
 
   private
 
   def remote_id_present_post_legacy
-    if remote_created_at > DateTime.new(2013, 2, 3, 13, 14, 30) && !remote_id
+    if remote_created_at.utc > Time.utc(2013, 2, 3, 14, 12, 55) && !remote_id
       errors.add(:remote_id, "can't be blank")
     end
   end

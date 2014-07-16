@@ -4,7 +4,7 @@ class PostsByHod < ActiveRecord::Base
   class << self
     def series(options={})
       between_maybe = if (between = options[:between])
-                        "WHERE hour BETWEEN '#{between.min}' AND '#{between.max}'"
+                        "WHERE day BETWEEN '#{between.min}' AND '#{between.max}'"
                       else
                         ""
                       end

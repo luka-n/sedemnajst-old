@@ -20,14 +20,6 @@ module Mn3njalnik
           text.scan(/\d/).join.to_i + 1
         blob = page.search(".blend_links.desc.lighter")[0].
           text.strip.split(", ")[-1]
-        topic.created_at = if blob =~ /^danes, (\d{2}):(\d{2})$/
-                             DateTime.now.change(hour: $1.to_i, min: $2.to_i)
-                           elsif blob =~ /^včeraj, (\d{2}):(\d{2})$/
-                             (DateTime.now - 1).
-                               change(hour: $1.to_i, min: $2.to_i)
-                           else
-                             DateTime.parse(blob.gsub("avg", "aug"))
-                           end
         topic
       end
     end
@@ -68,8 +60,7 @@ module Mn3njalnik
       post.body = row.search(".entry-content")[0].inner_html
       hovercard = row.search("[hovercard-id]")[0]
       post.user_id = hovercard.attr("hovercard-id").to_i if hovercard
-      post.created_at = DateTime.
-        parse(row.search(".published")[0].attr("title"))
+      post.created_at = Time.parse(row.search(".published")[0].attr("title"))
       post.id = row.search(".report a")[0].attr("href").
         match(/pid=([0-9]+)/)[1].to_i
       post.topic = self

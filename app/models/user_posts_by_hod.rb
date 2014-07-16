@@ -6,7 +6,7 @@ class UserPostsByHod < ActiveRecord::Base
   class << self
     def series_for(user, options={})
       between_maybe = if (between = options[:between])
-                        "AND hour BETWEEN '#{between.min}' AND '#{between.max}'"
+                        "AND day BETWEEN '#{between.min}' AND '#{between.max}'"
                       else
                         ""
                       end

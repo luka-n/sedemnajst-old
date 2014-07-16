@@ -4,7 +4,6 @@ class Topic < ActiveRecord::Base
 
   validates :title, presence: true
   validates :remote_id, presence: true, uniqueness: true
-  validates :remote_created_at, presence: true
 
   trigger.after(:insert) do
     "UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id"
@@ -14,7 +13,18 @@ class Topic < ActiveRecord::Base
     "UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id"
   end
 
+  scope :last_post_remote_created_on_gteq, -> date {
+    where("last_post_remote_created_at >= ?", Time.parse(date))
+  }
+  scope :last_post_remote_created_on_lteq, -> date {
+    where("last_post_remote_created_at <= ?", Time.parse(date).end_of_day)
+  }
+
   class << self
+    def ransackable_scopes(auth_object=nil)
+      [:last_post_remote_created_on_gteq, :last_post_remote_created_on_lteq]
+    end
+
     def sync_all
       sync_log = Logger.new(File.join(Rails.root, "log", "sync.log"))
       sync_log.info "Starting sync"
@@ -24,7 +34,6 @@ class Topic < ActiveRecord::Base
           user = User.find_or_create_by_remote_id!(remote.user_id)
           topic = Topic.create!(title: remote.title,
                                 user_id: user.id,
-                                remote_created_at: remote.created_at,
                                 remote_id: remote.id)
         end
         if topic.posts_count != remote.posts_count

@@ -8,7 +8,7 @@ class UserPostsByHour < ActiveRecord::Base
       data = connection.execute <<SQL
 WITH series AS (
   SELECT user_id,
-         generate_series(min(hour), max(hour), '1 hour') AS hour,
+         generate_series(min(hour), date_trunc('hour', now()), '1 hour') AS hour,
          0 AS posts_count
   FROM user_posts_by_hour
   WHERE user_id = #{user.id}

@@ -115,9 +115,9 @@ CREATE TABLE posts (
     body text NOT NULL,
     topic_id integer NOT NULL,
     user_id integer,
-    remote_created_at timestamp without time zone NOT NULL,
+    remote_created_at timestamp with time zone NOT NULL,
     remote_id integer,
-    CONSTRAINT remote_id_not_null_post_legacy CHECK (((remote_created_at <= '2013-02-03 13:14:30'::timestamp without time zone) OR (remote_id IS NOT NULL)))
+    CONSTRAINT remote_id_not_null_post_legacy CHECK (((timezone('UTC'::text, remote_created_at) <= '2013-02-03 13:12:55'::timestamp without time zone) OR (remote_id IS NOT NULL)))
 );
 
 
@@ -126,11 +126,11 @@ CREATE TABLE posts (
 --
 
 CREATE MATERIALIZED VIEW posts_by_dow AS
- SELECT date_trunc('day'::text, posts.remote_created_at) AS day,
-    date_part('isodow'::text, posts.remote_created_at) AS dow,
+ SELECT (date_trunc('day'::text, posts.remote_created_at))::date AS day,
+    (date_part('isodow'::text, posts.remote_created_at))::integer AS dow,
     count(*) AS posts_count
    FROM posts
-  GROUP BY date_trunc('day'::text, posts.remote_created_at), date_part('isodow'::text, posts.remote_created_at)
+  GROUP BY (date_trunc('day'::text, posts.remote_created_at))::date, (date_part('isodow'::text, posts.remote_created_at))::integer
   WITH NO DATA;
 
 
@@ -139,11 +139,11 @@ CREATE MATERIALIZED VIEW posts_by_dow AS
 --
 
 CREATE MATERIALIZED VIEW posts_by_hod AS
- SELECT date_trunc('hour'::text, posts.remote_created_at) AS hour,
-    date_part('hour'::text, posts.remote_created_at) AS hod,
+ SELECT (date_trunc('day'::text, posts.remote_created_at))::date AS day,
+    (date_part('hour'::text, posts.remote_created_at))::integer AS hod,
     count(*) AS posts_count
    FROM posts
-  GROUP BY date_trunc('hour'::text, posts.remote_created_at), date_part('hour'::text, posts.remote_created_at)
+  GROUP BY (date_trunc('day'::text, posts.remote_created_at))::date, (date_part('hour'::text, posts.remote_created_at))::integer
   WITH NO DATA;
 
 
@@ -197,9 +197,8 @@ CREATE TABLE topics (
     user_id integer,
     remote_id integer NOT NULL,
     posts_count integer DEFAULT 0 NOT NULL,
-    last_post_remote_created_at timestamp without time zone,
-    last_post_remote_id integer,
-    remote_created_at timestamp without time zone NOT NULL
+    last_post_remote_created_at timestamp with time zone,
+    last_post_remote_id integer
 );
 
 
@@ -228,11 +227,11 @@ ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
 
 CREATE MATERIALIZED VIEW user_posts_by_dow AS
  SELECT posts.user_id,
-    date_trunc('day'::text, posts.remote_created_at) AS day,
-    date_part('isodow'::text, posts.remote_created_at) AS dow,
+    (date_trunc('day'::text, posts.remote_created_at))::date AS day,
+    (date_part('isodow'::text, posts.remote_created_at))::integer AS dow,
     count(*) AS posts_count
    FROM posts
-  GROUP BY posts.user_id, date_trunc('day'::text, posts.remote_created_at), date_part('isodow'::text, posts.remote_created_at)
+  GROUP BY posts.user_id, (date_trunc('day'::text, posts.remote_created_at))::date, (date_part('isodow'::text, posts.remote_created_at))::integer
   WITH NO DATA;
 
 
@@ -242,11 +241,11 @@ CREATE MATERIALIZED VIEW user_posts_by_dow AS
 
 CREATE MATERIALIZED VIEW user_posts_by_hod AS
  SELECT posts.user_id,
-    date_trunc('hour'::text, posts.remote_created_at) AS hour,
-    date_part('hour'::text, posts.remote_created_at) AS hod,
+    (date_trunc('day'::text, posts.remote_created_at))::date AS day,
+    (date_part('hour'::text, posts.remote_created_at))::integer AS hod,
     count(*) AS posts_count
    FROM posts
-  GROUP BY posts.user_id, date_trunc('hour'::text, posts.remote_created_at), date_part('hour'::text, posts.remote_created_at)
+  GROUP BY posts.user_id, (date_trunc('day'::text, posts.remote_created_at))::date, (date_part('hour'::text, posts.remote_created_at))::integer
   WITH NO DATA;
 
 
@@ -276,7 +275,7 @@ CREATE TABLE users (
     avatar_file_name character varying(255),
     avatar_content_type character varying(255),
     avatar_file_size integer,
-    avatar_updated_at timestamp without time zone
+    avatar_updated_at timestamp with time zone
 );
 
 
@@ -401,27 +400,6 @@ CREATE INDEX index_topics_on_user_id ON topics USING btree (user_id);
 
 
 --
--- Name: index_user_posts_by_dow_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_user_posts_by_dow_on_user_id ON user_posts_by_dow USING btree (user_id);
-
-
---
--- Name: index_user_posts_by_hod_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_user_posts_by_hod_on_user_id ON user_posts_by_hod USING btree (user_id);
-
-
---
--- Name: index_user_posts_by_hour_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_user_posts_by_hour_on_user_id ON user_posts_by_hour USING btree (user_id);
-
-
---
 -- Name: index_users_on_remote_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -514,4 +492,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140712211229');
 INSERT INTO schema_migrations (version) VALUES ('20140712211240');
 
 INSERT INTO schema_migrations (version) VALUES ('20140712214123');
+
+INSERT INTO schema_migrations (version) VALUES ('20140714115051');
+
+INSERT INTO schema_migrations (version) VALUES ('20140714154002');
 

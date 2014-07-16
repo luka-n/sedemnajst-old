@@ -27,36 +27,32 @@ class UsersController < ApplicationController
   def ppdow
     user = User.find(params[:id])
     options = {}
-    if (q = params[:user_posts_by_dow_q])
-      from = DateTime.parse(q[:day_gt])
-      to = DateTime.parse(q[:day_lt])
-      options[:between] = from..to
-    else
-      options[:between] = (DateTime.now - 3.months)..DateTime.now
-    end
-    data = UserPostsByDow.series_for(user, options)
-    min = UserPostsByDow.minimum(:day).to_i
-    max = UserPostsByDow.maximum(:day).to_i
-    render json: Oj.dump(data: data, min: min, max: max,
-                         from: options[:between].min.to_i,
-                         to: options[:between].max.to_i)
+    options[:between] = if (q = params[:user_posts_by_dow_q])
+                          Date.parse(q[:day_gteq])..Date.parse(q[:day_lteq])
+                        else
+                          (Date.today - 3.months)..Date.today
+                        end
+    render json: Oj.
+      dump(data: UserPostsByDow.series_for(user, options),
+           min: UserPostsByDow.minimum(:day).to_time(:utc).to_i * 1000,
+           max: Date.today.to_time(:utc).to_i * 1000,
+           from: options[:between].min.to_time(:utc).to_i * 1000,
+           to: options[:between].max.to_time(:utc).to_i * 1000)
   end
 
   def pphod
     user = User.find(params[:id])
     options = {}
-    if (q = params[:user_posts_by_hod_q])
-      from = DateTime.parse(q[:day_gt])
-      to = DateTime.parse(q[:day_lt])
-      options[:between] = from..to
-    else
-      options[:between] = (DateTime.now - 3.months)..DateTime.now
-    end
-    data = UserPostsByHod.series_for(user, options)
-    min = UserPostsByHod.minimum(:hour).to_i
-    max = UserPostsByHod.maximum(:hour).to_i
-    render json: Oj.dump(data: data, min: min, max: max,
-                         from: options[:between].min.to_i,
-                         to: options[:between].max.to_i)
+    options[:between] = if (q = params[:user_posts_by_hod_q])
+                          Date.parse(q[:day_gteq])..Date.parse(q[:day_lteq])
+                        else
+                          (Date.today - 3.months)..Date.today
+                        end
+    render json: Oj.
+      dump(data: UserPostsByHod.series_for(user, options),
+           min: UserPostsByHod.minimum(:day).to_time(:utc).to_i * 1000,
+           max: Date.today.to_time(:utc).to_i * 1000,
+           from: options[:between].min.to_time(:utc).to_i * 1000,
+           to: options[:between].max.to_time(:utc).to_i * 1000)
   end
 end

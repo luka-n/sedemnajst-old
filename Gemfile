@@ -26,6 +26,7 @@ gem "nprogress-rails"
 gem "oj"
 gem "oj_mimic_json"
 gem "elif"
+gem "momentjs-rails"
 
 gem "ransack", git: "https://github.com/activerecord-hackery/ransack"
 gem "highstocks-rails", git: "https://github.com/ankit8898/highstock-rails"

@@ -1,5 +1,3 @@
 $(function() {
-  $.datepicker.setDefaults({
-    dateFormat: "dd.mm.yy"
-  });
+  $.datepicker.setDefaults($.datepicker.regional["sl"]);
 });

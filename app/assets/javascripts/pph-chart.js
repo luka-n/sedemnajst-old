@@ -1,25 +1,19 @@
 $(function() {
-  var user_id = $("#pph-chart").data("user-id"),
-      url;
+  var user_id = $("#pph-chart").data("user-id"), url;
   if (!$("#pph-chart").length) { return; }
-  if (user_id) {
-    url = "/users/" + user_id + "/pph";
-  } else {
-    url = "/stats/pph";
-  }
+  if (user_id) { url = "/users/" + user_id + "/pph"; }
+  else { url = "/stats/pph"; }
   function pointClick(ev) {
-    var points = ev.point.series.points,
-        from = Highcharts.dateFormat("%d.%m.%Y", ev.point.x),
-        to = Highcharts.
-          dateFormat("%d.%m.%Y", points[points.indexOf(ev.point) + 1].x),
-        url;
-    if (user_id) {
-      url = "/users/" + user_id + "/posts?posts_q[remote_created_at_gt]=" +
-        from + "&posts_q[remote_created_at_lt]=" + to;
-    } else {
-      url = "/posts?posts_q[remote_created_at_gt]=" + from +
-        "&posts_q[remote_created_at_lt]=" + to;
-    }
+    var grouping = ev.point.series.currentDataGrouping,
+        from = moment(ev.point.x),
+        to = grouping ? from.clone().add(grouping.unitName, grouping.count) :
+          from.clone().add("hour", 1);
+    if (user_id) { url = "/users/" + user_id + "/posts"; }
+    else { url = "/posts"; }
+    url += "?posts_q[remote_created_at_gteq]=" +
+      from.format("DD.MM.YYYY HH:mm") +
+      "&posts_q[remote_created_at_lt]=" +
+      to.format("DD.MM.YYYY HH:mm");
     window.open(url, "_blank");
   }
   $.getJSON(url, function(data) {
@@ -75,8 +69,7 @@ $(function() {
         inputDateFormat: "%d.%m.%Y",
         inputEditDateFormat: "%d.%m.%Y",
         inputDateParser: function(date) {
-          var parts = date.split(".");
-          return Date.UTC(parts[2], parseInt(parts[1]) - 1, parts[0]);
+          return +moment.utc(date, "DD.MM.YYYY");
         },
 	buttonTheme: {
 	  fill: "#fece2f",
@@ -132,12 +125,16 @@ $(function() {
         }
       }],
       yAxis: {
-        min: 0
+        min: 0,
+        minRange: 1,
+        minTickInterval: 1
       }
     }, function(chart) {
       setTimeout(function(){
         $("input.highcharts-range-selector", $(chart.options.chart.renderTo)).
           datepicker({
+            minDate: moment.utc(chart.xAxis[0].dataMin).format("DD.MM.YYYY"),
+            maxDate: moment.utc(chart.xAxis[0].dataMax).format("DD.MM.YYYY"),
             beforeShow: function(i, obj) {
               $widget = obj.dpDiv;
               window.$uiDatepickerDiv = $widget;

@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require jquery-ui/button
 //= require jquery-ui/datepicker
+//= require jquery-ui/datepicker-sl
 //= require jquery-ui/slider
 //= require highstock
 //= require chartkick
@@ -22,4 +23,5 @@
 //= require nprogress
 //= require nprogress-turbolinks
 //= require nprogress-config
+//= require moment
 //= require_tree .

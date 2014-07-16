@@ -6,6 +6,8 @@ set :repo_url, "https://github.com/lnovsak/sedemnajst.git"
 set :deploy_to, "/home/sedemnajst"
 set :log_level, :info
 
+set :default_env, "TZ" => "Europe/Ljubljana"
+
 set :linked_files, %w{config/database.yml config/config.yml
                       config/thinking_sphinx.yml config/secrets.yml
                       config/production.sphinx.conf}
