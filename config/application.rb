@@ -26,6 +26,8 @@ module Sedemnajst
     config.i18n.default_locale = :sl
 
     config.active_record.schema_format = :sql
+
+    config.active_record.record_timestamps = false
   end
 end
 
