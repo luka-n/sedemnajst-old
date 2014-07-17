@@ -10,6 +10,7 @@ class TopicsController < ApplicationController
     topics_q[:last_post_remote_created_on_lteq] ||= max_date.strftime("%d.%m.%Y")
     @topics_q = Topic.ransack(topics_q)
     @topics = @topics_q.result.
+      includes(:user).
       order(map_sort_key(params[:sort], "last_post_remote_created_at_desc")).
       page(params[:page] || 1).per(40)
     @min = min_date.to_time(:utc).to_i * 1000
@@ -19,7 +20,7 @@ class TopicsController < ApplicationController
 
   def show
     @topic = Topic.find(params[:id])
-    @posts = @topic.posts.order(:remote_created_at).
+    @posts = @topic.posts.includes(:user).order(:remote_created_at).
       page(params[:page] || 1).per(40)
     @title = @topic.to_s
     respond_with @topic
