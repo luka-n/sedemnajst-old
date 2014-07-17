@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  include UpdatedAtTrigger
+
   belongs_to :topic
   belongs_to :user
 

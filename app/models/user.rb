@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include UpdatedAtTrigger
+
   attr_accessor :avatar_url
 
   has_many :topics, dependent: :destroy

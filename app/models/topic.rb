@@ -1,4 +1,6 @@
 class Topic < ActiveRecord::Base
+  include UpdatedAtTrigger
+
   belongs_to :user
   has_many :posts, dependent: :delete_all
 

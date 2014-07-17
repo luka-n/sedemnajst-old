@@ -75,6 +75,20 @@ $$;
 
 
 --
+-- Name: posts_before_update_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION posts_before_update_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at := now();
+    RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: topics_after_delete_row_tr(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -102,6 +116,34 @@ END;
 $$;
 
 
+--
+-- Name: topics_before_update_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION topics_before_update_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at := now();
+    RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: users_before_update_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION users_before_update_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at := now();
+    RETURN NEW;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -117,6 +159,8 @@ CREATE TABLE posts (
     user_id integer,
     remote_created_at timestamp with time zone NOT NULL,
     remote_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
     CONSTRAINT remote_id_not_null_post_legacy CHECK (((timezone('UTC'::text, remote_created_at) <= '2013-02-03 13:12:55'::timestamp without time zone) OR (remote_id IS NOT NULL)))
 );
 
@@ -198,7 +242,9 @@ CREATE TABLE topics (
     remote_id integer NOT NULL,
     posts_count integer DEFAULT 0 NOT NULL,
     last_post_remote_created_at timestamp with time zone,
-    last_post_remote_id integer
+    last_post_remote_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -275,7 +321,9 @@ CREATE TABLE users (
     avatar_file_name character varying(255),
     avatar_content_type character varying(255),
     avatar_file_size integer,
-    avatar_updated_at timestamp with time zone
+    avatar_updated_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -428,6 +476,13 @@ CREATE TRIGGER posts_after_insert_row_tr AFTER INSERT ON posts FOR EACH ROW EXEC
 
 
 --
+-- Name: posts_before_update_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER posts_before_update_row_tr BEFORE UPDATE ON posts FOR EACH ROW EXECUTE PROCEDURE posts_before_update_row_tr();
+
+
+--
 -- Name: topics_after_delete_row_tr; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -439,6 +494,20 @@ CREATE TRIGGER topics_after_delete_row_tr AFTER DELETE ON topics FOR EACH ROW EX
 --
 
 CREATE TRIGGER topics_after_insert_row_tr AFTER INSERT ON topics FOR EACH ROW EXECUTE PROCEDURE topics_after_insert_row_tr();
+
+
+--
+-- Name: topics_before_update_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER topics_before_update_row_tr BEFORE UPDATE ON topics FOR EACH ROW EXECUTE PROCEDURE topics_before_update_row_tr();
+
+
+--
+-- Name: users_before_update_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER users_before_update_row_tr BEFORE UPDATE ON users FOR EACH ROW EXECUTE PROCEDURE users_before_update_row_tr();
 
 
 --
@@ -496,4 +565,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140712214123');
 INSERT INTO schema_migrations (version) VALUES ('20140714115051');
 
 INSERT INTO schema_migrations (version) VALUES ('20140714154002');
+
+INSERT INTO schema_migrations (version) VALUES ('20140717214142');
+
+INSERT INTO schema_migrations (version) VALUES ('20140717220325');
 
