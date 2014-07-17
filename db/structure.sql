@@ -75,6 +75,23 @@ $$;
 
 
 --
+-- Name: posts_after_update_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION posts_after_update_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF NEW.user_id != OLD.user_id THEN
+      UPDATE users SET posts_count = posts_count - 1 WHERE id = OLD.user_id;
+      UPDATE users SET posts_count = posts_count + 1 WHERE id = NEW.user_id;
+    END IF;
+    RETURN NULL;
+END;
+$$;
+
+
+--
 -- Name: posts_before_update_row_tr(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -111,6 +128,23 @@ CREATE FUNCTION topics_after_insert_row_tr() RETURNS trigger
     AS $$
 BEGIN
     UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: topics_after_update_row_tr(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION topics_after_update_row_tr() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF NEW.user_id != OLD.user_id THEN
+      UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id;
+      UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
+    END IF;
     RETURN NULL;
 END;
 $$;
@@ -476,6 +510,13 @@ CREATE TRIGGER posts_after_insert_row_tr AFTER INSERT ON posts FOR EACH ROW EXEC
 
 
 --
+-- Name: posts_after_update_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER posts_after_update_row_tr AFTER UPDATE ON posts FOR EACH ROW EXECUTE PROCEDURE posts_after_update_row_tr();
+
+
+--
 -- Name: posts_before_update_row_tr; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -494,6 +535,13 @@ CREATE TRIGGER topics_after_delete_row_tr AFTER DELETE ON topics FOR EACH ROW EX
 --
 
 CREATE TRIGGER topics_after_insert_row_tr AFTER INSERT ON topics FOR EACH ROW EXECUTE PROCEDURE topics_after_insert_row_tr();
+
+
+--
+-- Name: topics_after_update_row_tr; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER topics_after_update_row_tr AFTER UPDATE ON topics FOR EACH ROW EXECUTE PROCEDURE topics_after_update_row_tr();
 
 
 --
@@ -569,4 +617,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140714154002');
 INSERT INTO schema_migrations (version) VALUES ('20140717214142');
 
 INSERT INTO schema_migrations (version) VALUES ('20140717220325');
+
+INSERT INTO schema_migrations (version) VALUES ('20140717222059');
 

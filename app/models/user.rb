@@ -32,6 +32,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def merge(source)
+    source.posts.update_all user_id: id
+    source.topics.update_all user_id: id
+    source.destroy
+  end
+
   def to_s
     name
   end

@@ -15,6 +15,15 @@ class Topic < ActiveRecord::Base
     "UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id"
   end
 
+  trigger.after(:update) do
+    <<-SQL
+      IF NEW.user_id != OLD.user_id THEN
+        UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id;
+        UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
+      END IF;
+    SQL
+  end
+
   scope :last_post_remote_created_on_gteq, -> date {
     where("last_post_remote_created_at >= ?", Time.parse(date))
   }
