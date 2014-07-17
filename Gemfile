@@ -44,6 +44,7 @@ group :development do
   gem "capistrano3-puma"
   gem "spring"
   gem "quiet_assets"
+  gem "meta_request"
 end
 
 group :production do
