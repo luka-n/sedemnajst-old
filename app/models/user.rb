@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     url: "/avatars/:id/:style/:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :remote_id, presence: true, uniqueness: true
 
   before_create :fetch_avatar
