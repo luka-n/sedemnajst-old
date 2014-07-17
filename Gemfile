@@ -9,14 +9,11 @@ gem "turbolinks"
 gem "foreigner"
 gem "paperclip"
 gem "mechanize"
-gem "log4r"
 gem "haml"
 gem "kaminari"
 gem "thinking-sphinx"
 gem "mysql2"
 gem "pg"
-gem "groupdate"
-gem "chartkick"
 gem "jquery-ui-rails"
 gem "jquery-ui-themes"
 gem "rails-i18n"
@@ -36,6 +33,7 @@ group :development, :test do
   gem "byebug"
   gem "pry"
   gem "pry-doc", git: "https://github.com/pry/pry-doc"
+  gem "hirb"
 end
 
 group :development do
@@ -45,6 +43,7 @@ group :development do
   gem "capistrano-rbenv"
   gem "capistrano3-puma"
   gem "spring"
+  gem "quiet_assets"
 end
 
 group :production do
