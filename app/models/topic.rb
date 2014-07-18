@@ -1,5 +1,6 @@
 class Topic < ActiveRecord::Base
   include UpdatedAtTrigger
+  include SyncLog
 
   belongs_to :user
   has_many :posts, dependent: :delete_all
@@ -37,7 +38,6 @@ class Topic < ActiveRecord::Base
     end
 
     def sync_all
-      sync_log = Logger.new(File.join(Rails.root, "log", "sync.log"))
       sync_log.info "Starting sync"
       Mn3njalnik::Forum.find(17).topics.each do |remote|
         topic = find_by_remote_id(remote.id)
@@ -48,7 +48,6 @@ class Topic < ActiveRecord::Base
                                 remote_id: remote.id)
         end
         if topic.posts_count != remote.posts_count
-          sync_log.info "Syncing topic w/ remote_id #{remote.id} and #{remote.posts_count - topic.posts_count} new posts"
           topic.sync(remote)
         end
       end
@@ -56,7 +55,20 @@ class Topic < ActiveRecord::Base
     end
   end
 
-  def sync(remote)
+  def sync(remote=nil)
+    remote ||= Mn3njalnik::Topic.find(remote_id)
+    # Verify last post we have is where it was in the remote topic
+    # Otherwise just redo the entire topic for now
+    if posts_count > 1
+      last_local = posts.order(:remote_id).last
+      last_remote = remote.posts(offset: posts_count - 1).first
+      if !last_remote || last_local.remote_id != last_remote.id
+        sync_log.info "Thrashing topic w/ remote_id #{remote_id} before sync, due to signs of tampering"
+        posts.delete_all
+        reload
+      end
+    end
+    sync_log.info "Syncing topic w/ remote_id #{remote_id} and #{remote.posts_count - posts_count} new posts"
     remote.posts(offset: posts_count).each do |remote_post|
       user = User.find_or_create_by_remote_id!(remote_post.user_id)
       post = Post.create!(body: remote_post.body,
