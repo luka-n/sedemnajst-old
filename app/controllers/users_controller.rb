@@ -33,11 +33,11 @@ class UsersController < ApplicationController
                           (Date.today - 3.months)..Date.today
                         end
     render json: Oj.
-      dump(data: UserPostsByDow.series_for(user, options),
-           min: UserPostsByDow.minimum(:day).to_time(:utc).to_i * 1000,
-           max: Date.today.to_time(:utc).to_i * 1000,
-           from: options[:between].min.to_time(:utc).to_i * 1000,
-           to: options[:between].max.to_time(:utc).to_i * 1000)
+      dump("data" => UserPostsByDow.series_for(user, options),
+           "min" => UserPostsByDow.minimum(:day).to_time(:utc).to_i * 1000,
+           "max" => Date.today.to_time(:utc).to_i * 1000,
+           "from" => options[:between].min.to_time(:utc).to_i * 1000,
+           "to" => options[:between].max.to_time(:utc).to_i * 1000)
   end
 
   def pphod
@@ -49,10 +49,10 @@ class UsersController < ApplicationController
                           (Date.today - 3.months)..Date.today
                         end
     render json: Oj.
-      dump(data: UserPostsByHod.series_for(user, options),
-           min: UserPostsByHod.minimum(:day).to_time(:utc).to_i * 1000,
-           max: Date.today.to_time(:utc).to_i * 1000,
-           from: options[:between].min.to_time(:utc).to_i * 1000,
-           to: options[:between].max.to_time(:utc).to_i * 1000)
+      dump("data" => UserPostsByHod.series_for(user, options),
+           "min" => UserPostsByHod.minimum(:day).to_time(:utc).to_i * 1000,
+           "max" => Date.today.to_time(:utc).to_i * 1000,
+           "from" => options[:between].min.to_time(:utc).to_i * 1000,
+           "to" => options[:between].max.to_time(:utc).to_i * 1000)
   end
 end
