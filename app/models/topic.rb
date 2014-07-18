@@ -42,9 +42,11 @@ class Topic < ActiveRecord::Base
       Mn3njalnik::Forum.find(17).topics.each do |remote|
         topic = find_by_remote_id(remote.id)
         unless topic
-          user = User.find_or_create_by_remote_id!(remote.user_id)
+          if remote.user_id
+            user = User.find_or_create_by_remote_id!(remote.user_id)
+          end
           topic = Topic.create!(title: remote.title,
-                                user_id: user.id,
+                                user_id: user ? user.id : nil,
                                 remote_id: remote.id)
         end
         if topic.posts_count != remote.posts_count
@@ -70,10 +72,12 @@ class Topic < ActiveRecord::Base
     end
     sync_log.info "Syncing topic w/ remote_id #{remote_id} and #{remote.posts_count - posts_count} new posts"
     remote.posts(offset: posts_count).each do |remote_post|
-      user = User.find_or_create_by_remote_id!(remote_post.user_id)
+      if remote_post.user_id
+        user = User.find_or_create_by_remote_id!(remote_post.user_id)
+      end
       post = Post.create!(body: remote_post.body,
                           topic_id: id,
-                          user_id: user.id,
+                          user_id: user ? user.id : nil,
                           remote_created_at: remote_post.created_at,
                           remote_id: remote_post.id)
     end
