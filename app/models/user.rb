@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
 
   class << self
     def find_or_create_by_remote_id!(remote_id)
+      remote = nil
       find_or_create_by!(remote_id: remote_id) do |user|
         remote = Mn3njalnik::User.find(remote_id)
         user.name = remote.name
@@ -28,6 +29,10 @@ class User < ActiveRecord::Base
       end
     rescue ActiveRecord::RecordInvalid => e
       if e.record.errors.added? :remote_id, :taken then retry
+      elsif e.record.errors.added? :name, :taken
+        usr = User.find_by_name(remote.name)
+        usr.update_attributes(remote_id: remote.id)
+        usr
       else raise e end
     end
   end
