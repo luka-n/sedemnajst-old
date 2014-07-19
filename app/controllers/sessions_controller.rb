@@ -10,7 +10,8 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by_case_insensitive_name(params[:user_session][:name])
-    if @user && @user.authenticate(params[:user_session][:password])
+    if @user && @user.password_digest &&
+        @user.authenticate(params[:user_session][:password])
       session[:user_id] = @user.id
       redirect_to root_path
     else
