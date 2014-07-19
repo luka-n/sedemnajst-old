@@ -11,6 +11,7 @@ class Post < ActiveRecord::Base
   validate :remote_id_present_post_legacy
 
   after_save ThinkingSphinx::RealTime.callback_for(:post)
+  after_destroy :delete_from_sphinx
 
   trigger.after(:insert) do
     <<-SQL
@@ -82,6 +83,22 @@ class Post < ActiveRecord::Base
   def remote_id_present_post_legacy
     if remote_created_at.utc > Time.utc(2013, 2, 3, 14, 12, 55) && !remote_id
       errors.add(:remote_id, "can't be blank")
+    end
+  end
+
+  def delete_from_sphinx
+    ThinkingSphinx::Connection.take do |connection|
+      select = Riddle::Query::Select.new.from("post_core").
+        where(remote_id: remote_id).to_sql
+      row = ThinkingSphinx::Logger.log(:query, select) do
+        connection.execute(select).first
+      end
+      if row
+        delete = Riddle::Query::Delete.new("post_core", row["id"]).to_sql
+        ThinkingSphinx::Logger.log(:query, delete) do
+          connection.execute(delete)
+        end
+      end
     end
   end
 end
