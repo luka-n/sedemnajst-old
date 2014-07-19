@@ -25,6 +25,7 @@ production:
       nick: BadNewsBot
       password: secret
       port: 6697
+      join: true
       channel: "#log"
       ssl: true
       prefix: "[Exception Notification]"
