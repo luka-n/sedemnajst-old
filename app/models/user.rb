@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     url: "/avatars/:id/:style/:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: {case_sensitive: false}
   validates :remote_id, presence: true, uniqueness: true
   validates :password_request_token, uniqueness: true, allow_blank: true
   validates :password, confirmation: true, length: 6..255,
@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
       where("password_request_token IS NOT NULL").
         where(password_request_token: token).
         first
+    end
+
+    def find_by_case_insensitive_name(name)
+      where("lower(name) = ?", name.downcase).first
     end
   end
 

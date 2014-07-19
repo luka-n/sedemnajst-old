@@ -489,7 +489,7 @@ CREATE INDEX index_topics_on_user_id ON topics USING btree (user_id);
 -- Name: index_users_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_users_on_name ON users USING btree (name);
+CREATE UNIQUE INDEX index_users_on_name ON users USING btree (lower((name)::text));
 
 
 --
@@ -643,4 +643,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140717225102');
 INSERT INTO schema_migrations (version) VALUES ('20140718200851');
 
 INSERT INTO schema_migrations (version) VALUES ('20140718211128');
+
+INSERT INTO schema_migrations (version) VALUES ('20140719142420');
 

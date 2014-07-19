@@ -8,7 +8,7 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    @user = User.find_by_name(params[:name])
+    @user = User.find_by_case_insensitive_name(params[:name])
     start_over and return unless @user
     @user.send_password_request
     flash[:notice] = "poslali smo ti nadaljne inštrukcije"
