@@ -14,5 +14,21 @@ test:
 
 production:
   <<: *default
-  exception_recipients:
-    - user@example.com
+  exception_notification:
+    email:
+      email_prefix: "[Whatever] "
+      sender_address: '"notifier" <notifier@example.com>}'
+      exception_recipients:
+        - exceptions@example.com
+    irc:
+      domain: irc.example.com
+      nick: BadNewsBot
+      password: secret
+      port: 6697
+      channel: "#log"
+      ssl: true
+      prefix: "[Exception Notification]"
+      recipients:
+        - peter
+        - michael
+        - samir

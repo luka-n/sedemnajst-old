@@ -80,6 +80,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.7)
     builder (3.2.2)
@@ -98,6 +99,8 @@ GEM
     capistrano3-puma (0.6.1)
       capistrano (~> 3.0)
       puma (>= 2.6)
+    carrier-pigeon (0.7.0)
+      addressable
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -298,6 +301,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   capistrano3-puma
+  carrier-pigeon
   elif
   exception_notification
   foreigner
