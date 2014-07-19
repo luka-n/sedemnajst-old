@@ -17,7 +17,7 @@ production:
   exception_notification:
     email:
       email_prefix: "[Whatever] "
-      sender_address: '"notifier" <notifier@example.com>}'
+      sender_address: '"notifier" <notifier@example.com>'
       exception_recipients:
         - exceptions@example.com
     irc:
