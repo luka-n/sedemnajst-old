@@ -1,6 +1,6 @@
 - content_for :heading, "prijava"
 
-= form_for @user, as: :user_session, url: sessions_path do |f|
+= form_for @user, as: :session, url: sessions_path do |f|
   %dl
     %dt= f.label :name, "ime"
     %dd= f.text_field :name, autofocus: true
