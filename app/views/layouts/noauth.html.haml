@@ -1,0 +1,16 @@
+!!! 5
+%html
+  %head
+    %meta{charset: "utf-8"}
+    %title= title
+    = stylesheet_link_tag "noauth", media: "all"
+    = javascript_include_tag "noauth"
+    = csrf_meta_tags
+  %body
+    .section
+      %h1.section-heading= content_for :heading
+      - if alert
+        %p.alert= alert
+      - if notice
+        %p.notice= notice
+      .section-content= yield

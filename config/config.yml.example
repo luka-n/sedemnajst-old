@@ -1,7 +1,10 @@
 default: &default
   mn3njalnik:
-    username: ZeroCool
-    password: joker
+    default: &mn3njalnik_default
+      username: ZeroCool
+      password: joker
+    sender:
+      <<: *mn3njalnik_default
 
 development:
   <<: *default

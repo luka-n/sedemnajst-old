@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 class User < ActiveRecord::Base
   include UpdatedAtTrigger
 
-  attr_accessor :avatar_url
+  has_secure_password validations: false
+
+  attr_accessor :avatar_url, :password_required
 
   has_many :topics, dependent: :destroy
   has_many :posts, dependent: :destroy
@@ -16,6 +19,9 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
   validates :remote_id, presence: true, uniqueness: true
+  validates :password_request_token, uniqueness: true, allow_blank: true
+  validates :password, confirmation: true, length: 8..128,
+    if: -> { password.present? || password_required }
 
   before_create :fetch_avatar
 
@@ -34,6 +40,12 @@ class User < ActiveRecord::Base
         usr.update_attributes(remote_id: remote.id)
         usr
       else raise e end
+    end
+
+    def find_by_password_request_token(token)
+      where("password_request_token IS NOT NULL").
+        where(password_request_token: token).
+        first
     end
   end
 
@@ -56,5 +68,28 @@ class User < ActiveRecord::Base
 
   def fetch_avatar!
     fetch_avatar && save!
+  end
+
+  def send_password_request
+    update_attributes!(password_request_token: SecureRandom.urlsafe_base64,
+                       password_requested_at: Time.now)
+    body = <<-END
+      ov,
+
+      svoje novo geslo lahko nastaviš tukaj:
+
+      http://#{CONFIG[:host]}/user/password/edit?token=#{password_request_token}
+
+      safe
+    END
+    Mn3njalnik.with_connection(CONFIG[:mn3njalnik][:sender][:username],
+                               CONFIG[:mn3njalnik][:sender][:password]) do
+      Mn3njalnik::User.find(remote_id).
+        pm(subject: "geslo za vas, gospod ali gospodična #{name}",
+           body: body)
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    if e.record.errors.added? :password_request_token, :taken then retry
+    else raise e end
   end
 end

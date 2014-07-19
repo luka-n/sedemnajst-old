@@ -81,6 +81,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bcrypt (3.1.7)
     builder (3.2.2)
     byebug (2.7.0)
       columnize (~> 0.3)
@@ -290,6 +291,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-native_db_types_override
+  bcrypt
   brakeman!
   byebug
   capistrano!

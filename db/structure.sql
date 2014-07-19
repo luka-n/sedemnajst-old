@@ -357,7 +357,11 @@ CREATE TABLE users (
     avatar_file_size integer,
     avatar_updated_at timestamp with time zone,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    password_requested_by_ip character varying(255),
+    password_digest character varying(255),
+    password_request_token character varying(255),
+    password_requested_at timestamp with time zone
 );
 
 
@@ -486,6 +490,13 @@ CREATE INDEX index_topics_on_user_id ON topics USING btree (user_id);
 --
 
 CREATE UNIQUE INDEX index_users_on_name ON users USING btree (name);
+
+
+--
+-- Name: index_users_on_password_request_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_password_request_token ON users USING btree (password_request_token);
 
 
 --
@@ -628,4 +639,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140717220325');
 INSERT INTO schema_migrations (version) VALUES ('20140717222059');
 
 INSERT INTO schema_migrations (version) VALUES ('20140717225102');
+
+INSERT INTO schema_migrations (version) VALUES ('20140718200851');
+
+INSERT INTO schema_migrations (version) VALUES ('20140718211128');
 

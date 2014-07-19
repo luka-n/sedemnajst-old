@@ -211,10 +211,14 @@ sl:
   activerecord:
     errors:
       <<: *errors
+    attributes:
+      user:
+        password: 'geslo'
+        password_confirmation: 'geslo'
   views:
     pagination:
-      first: "&laquo; prva"
-      last: "zadnja &raquo;"
-      previous: "&lsaquo; prejšnja"
-      next: "naslednja &rsaquo;"
-      truncate: "&hellip;"
+      first: '&laquo; prva'
+      last: 'zadnja &raquo;'
+      previous: '&lsaquo; prejšnja'
+      next: 'naslednja &rsaquo;'
+      truncate: '&hellip;'

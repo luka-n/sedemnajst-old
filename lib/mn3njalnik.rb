@@ -3,6 +3,15 @@ module Mn3njalnik
 
   class << self
     attr_accessor :connection
+
+    def with_connection(username, password, &block)
+      old_connection = @connection
+      @connection = Connection.new
+      @connection.login username, password
+      block.call
+    ensure
+      @connection = old_connection
+    end
   end
 end
 

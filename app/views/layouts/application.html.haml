@@ -6,7 +6,7 @@
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
-  %body#sedemnajst
+  %body
     #header-outside
       #header-inside
         %h1
@@ -18,13 +18,20 @@
             = text_field_tag :q, params[:q], size: 25
             = submit_tag "išči"
     #nav
-      = link_to "arhiv", root_path
-      |
-      = link_to "dogajanje", stats_path
-      |
-      = link_to "kralji gnoja", rankings_path
-      |
-      = link_to "uporabniki", users_path
+      #nav-site
+        = link_to "arhiv", root_path
+        |
+        = link_to "dogajanje", stats_path
+        |
+        = link_to "kralji gnoja", rankings_path
+        |
+        = link_to "uporabniki", users_path
+      #nav-user
+        = @current_user
+        (
+        %span>= link_to "odjava", session_path, method: :delete
+        )
+      .clear
     = yield
     #footer
       %p= archive_status_text

@@ -1,0 +1,19 @@
+- content_for :heading, "novo geslo"
+
+= form_for @user, url: password_path, html: {method: :patch} do |f|
+  - if @user.errors.any?
+    - @user.errors.full_messages.each do |msg|
+      %p.alert= msg
+
+  %dl
+    %dt= f.label :password, "geslo"
+    %dd= f.password_field :password
+
+    %dt= f.label :password_confirmation, "potrdi geslo"
+    %dd= f.password_field :password_confirmation
+
+  %p
+    = f.hidden_field :password_request_token
+    = f.submit "gremo"
+
+%p= link_to "prijavi se", new_session_path

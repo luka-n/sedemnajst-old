@@ -1,0 +1,48 @@
+body {
+  background-color: #fff;
+  color: #000;
+  font-family: Verdana, sans-serif;
+  font-size: 0.7em;
+  margin: 10em auto;
+  width: 32em;
+}
+
+a:link, a:visited {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+.section {
+  background-color: #ffe495;
+  border: 1px solid #000;
+  margin: 1em 0;
+}
+
+.section-heading {
+  background-color: #000;
+  color: #ffcf3e;
+  font-size: 1em;
+  margin: 0;
+  padding: 0.3em;
+  text-align: center;
+}
+
+.section-content { margin: 1em; }
+
+dd { margin-left: 0; }
+
+label { font-weight: bold; }
+
+input[type="text"], input[type="password"] { width: 100%; }
+
+.alert, .notice {
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+.notice { color: #f6931f; }
+
+.alert { color: #e10026; }

@@ -1,0 +1,10 @@
+- content_for :heading, "geslo prosim"
+
+= form_tag passwords_path do |f|
+  %dl
+    %dt= label_tag :name, "ime"
+    %dd= text_field_tag :name, "", autofocus: true
+
+  %p= submit_tag "pošlji"
+
+%p= link_to "prijavi se", new_session_path

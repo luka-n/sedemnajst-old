@@ -12,6 +12,16 @@ Rails.application.routes.draw do
     get "pphod", on: :member
   end
 
+  get "sessions/new" => "sessions#new", as: :new_session
+  post "sessions" => "sessions#create", as: :sessions
+  delete "user/session" => "sessions#destroy", as: :session
+
+  get "passwords/new" => "passwords#new", as: :new_password
+  post "passwords" => "passwords#create", as: :passwords
+  get "user/password/edit" => "passwords#edit", as: :edit_password
+  put "user/password" => "passwords#update", as: :password
+  patch "user/password" => "passwords#update"
+
   get "rankings" => "rankings#index"
   get "search" => "search#index"
 

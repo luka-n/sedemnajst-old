@@ -1,0 +1,13 @@
+- content_for :heading, "prijava"
+
+= form_for @user, as: :user_session, url: sessions_path do |f|
+  %dl
+    %dt= f.label :name, "ime"
+    %dd= f.text_field :name, autofocus: true
+
+    %dt= f.label :password, "geslo"
+    %dd= f.password_field :password
+
+  %p= f.submit "gremo"
+
+%p= link_to "ni gesla? ni problema", new_password_path
