@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :remote_id, presence: true, uniqueness: true
   validates :password_request_token, uniqueness: true, allow_blank: true
-  validates :password, confirmation: true, length: 8..255,
+  validates :password, confirmation: true, length: 6..255,
     if: -> { password.present? || password_required }
 
   before_create :fetch_avatar
