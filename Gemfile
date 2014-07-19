@@ -23,10 +23,8 @@ gem "nprogress-rails"
 gem "oj"
 gem "elif"
 gem "momentjs-rails"
-gem "exception_notification"
 gem "activerecord-native_db_types_override"
 gem "bcrypt"
-gem "carrier-pigeon"
 
 gem "ransack", git: "https://github.com/activerecord-hackery/ransack"
 gem "highstocks-rails", git: "https://github.com/ankit8898/highstock-rails"
@@ -50,4 +48,7 @@ end
 
 group :production do
   gem "puma"
+  gem "carrier-pigeon"
+  gem "exception_notification",
+    git: "https://github.com/smartinez87/exception_notification"
 end

@@ -50,6 +50,14 @@ GIT
       pry (~> 0.9)
       yard (~> 0.8)
 
+GIT
+  remote: https://github.com/smartinez87/exception_notification
+  revision: 5998b5a6f63c87b58ba5d75d0734bd8e722c2b25
+  specs:
+    exception_notification (4.1.0.rc1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -120,9 +128,6 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     elif (0.1.0)
     erubis (2.7.0)
-    exception_notification (4.0.1)
-      actionmailer (>= 3.0.4)
-      activesupport (>= 3.0.4)
     execjs (2.2.1)
     fastercsv (1.5.5)
     foreigner (1.6.1)
@@ -303,7 +308,7 @@ DEPENDENCIES
   capistrano3-puma
   carrier-pigeon
   elif
-  exception_notification
+  exception_notification!
   foreigner
   hairtrigger
   haml
