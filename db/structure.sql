@@ -430,6 +430,41 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: index_posts_by_dow_on_day; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_posts_by_dow_on_day ON posts_by_dow USING btree (day);
+
+
+--
+-- Name: index_posts_by_dow_on_dow; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_posts_by_dow_on_dow ON posts_by_dow USING btree (dow);
+
+
+--
+-- Name: index_posts_by_hod_on_day; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_posts_by_hod_on_day ON posts_by_hod USING btree (day);
+
+
+--
+-- Name: index_posts_by_hod_on_hod; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_posts_by_hod_on_hod ON posts_by_hod USING btree (hod);
+
+
+--
+-- Name: index_posts_by_hour_on_hour; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_posts_by_hour_on_hour ON posts_by_hour USING btree (hour);
+
+
+--
 -- Name: index_posts_on_remote_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -483,6 +518,62 @@ CREATE UNIQUE INDEX index_topics_on_remote_id ON topics USING btree (remote_id);
 --
 
 CREATE INDEX index_topics_on_user_id ON topics USING btree (user_id);
+
+
+--
+-- Name: index_user_posts_by_dow_on_day; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_dow_on_day ON user_posts_by_dow USING btree (day);
+
+
+--
+-- Name: index_user_posts_by_dow_on_dow; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_dow_on_dow ON user_posts_by_dow USING btree (dow);
+
+
+--
+-- Name: index_user_posts_by_dow_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_dow_on_user_id ON user_posts_by_dow USING btree (user_id);
+
+
+--
+-- Name: index_user_posts_by_hod_on_day; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hod_on_day ON user_posts_by_hod USING btree (day);
+
+
+--
+-- Name: index_user_posts_by_hod_on_hod; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hod_on_hod ON user_posts_by_hod USING btree (hod);
+
+
+--
+-- Name: index_user_posts_by_hod_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hod_on_user_id ON user_posts_by_hod USING btree (user_id);
+
+
+--
+-- Name: index_user_posts_by_hour_on_hour; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hour_on_hour ON user_posts_by_hour USING btree (hour);
+
+
+--
+-- Name: index_user_posts_by_hour_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_user_posts_by_hour_on_user_id ON user_posts_by_hour USING btree (user_id);
 
 
 --
@@ -645,4 +736,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140718200851');
 INSERT INTO schema_migrations (version) VALUES ('20140718211128');
 
 INSERT INTO schema_migrations (version) VALUES ('20140719142420');
+
+INSERT INTO schema_migrations (version) VALUES ('20140719213305');
 
