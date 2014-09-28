@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
 
       svoje novo geslo lahko nastaviš tukaj:
 
-      http://#{CONFIG[:host]}/user/password/edit?token=#{password_request_token}
+      https://#{CONFIG[:host]}/user/password/edit?token=#{password_request_token}
 
       safe
     END
